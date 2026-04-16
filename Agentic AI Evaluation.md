@@ -291,3 +291,50 @@ Based on the research pooled above, the following outline is proposed for a comp
 The transition to agentic AI requires a radical departure from the evaluation methodologies of the previous generation. The current research landscape emphasizes that task completion is a necessary but insufficient condition for production readiness. Organizations and researchers must prioritize trajectory-level observability to understand why agents succeed or fail, particularly in multi-turn interactions where compounding errors are common.
 
 The adoption of "Agent-as-a-Judge" paradigms offers a scalable path to achieving human-level evaluation quality while significantly reducing costs. However, this must be balanced with rigorous stress-testing of those judges using libraries like the Judge Reliability Harness to ensure they are not merely reflecting their own internal biases. Finally, the economic dimension of agency—specifically the trade-off between accuracy and token consumption—must become a central focus of both academic research and enterprise procurement to prevent the "explosion" of inference bills and the deployment of operationally fragile systems. By adopting a multi-dimensional approach that spans technical, human-centered, and economic factors, the industry can bridge the gap between impressive laboratory results and reliable, production-grade autonomous infrastructure.
+
+
+Works cited
+Beyond Benchmark Islands: Toward Representative Trustworthiness Evaluation for Agentic AI - arXiv, accessed April 12, 2026, https://arxiv.org/html/2603.14987v1
+The Rise of Agentic AI: A Review of Definitions, Frameworks, Architectures, Applications, Evaluation Metrics, and Challenges - MDPI, accessed April 12, 2026, https://www.mdpi.com/1999-5903/17/9/404
+Beyond Task Completion: An Assessment Framework for ... - arXiv, accessed April 12, 2026, https://arxiv.org/html/2512.12791
+Agent Evaluation Framework 2026: Metrics, Rubrics & Benchmarks - Galileo AI, accessed April 12, 2026, https://galileo.ai/blog/agent-evaluation-framework-metrics-rubrics-benchmarks
+A Comprehensive Empirical Evaluation of Agent Frameworks on Code-centric Software Engineering Tasks - arXiv, accessed April 12, 2026, https://arxiv.org/html/2511.00872v1
+Securing AI agents: the defining cybersecurity challenge of 2026, accessed April 12, 2026, https://www.bvp.com/atlas/securing-ai-agents-the-defining-cybersecurity-challenge-of-2026
+The 2025 AI Agent Index Documenting Technical and Safety Features of Deployed Agentic AI Systems - arXiv, accessed April 12, 2026, https://arxiv.org/html/2602.17753v1
+The 2025 AI Agent Index, accessed April 12, 2026, https://aiagentindex.mit.edu/
+Exploring Agentic AI in Healthcare: A Study on Its Working Mechanism - PMC, accessed April 12, 2026, https://pmc.ncbi.nlm.nih.gov/articles/PMC12890637/
+From Laboratory to Real-World Applications: Benchmarking ... - arXiv, accessed April 12, 2026, https://arxiv.org/pdf/2601.03731
+A methodical approach to agent evaluation | Google Cloud Blog, accessed April 12, 2026, https://cloud.google.com/blog/topics/developers-practitioners/a-methodical-approach-to-agent-evaluation
+One year of agentic AI: Six lessons from the people doing the work - McKinsey, accessed April 12, 2026, https://www.mckinsey.com/capabilities/quantumblack/our-insights/one-year-of-agentic-ai-six-lessons-from-the-people-doing-the-work
+The Complete Guide to Evaluating AI Agents in Production: Beyond ..., accessed April 12, 2026, https://latitude.so/blog/complete-guide-evaluating-ai-agents-production
+AI Evaluation Metrics 2026: Tested by Conversation Experts - Master of Code, accessed April 12, 2026, https://masterofcode.com/blog/ai-agent-evaluation
+Evaluating AI agents: Real-world lessons from building agentic ..., accessed April 12, 2026, https://aws.amazon.com/blogs/machine-learning/evaluating-ai-agents-real-world-lessons-from-building-agentic-systems-at-amazon/
+Production-ready agentic AI: evaluation, monitoring, and governance | DataRobot Blog, accessed April 12, 2026, https://www.datarobot.com/blog/production-ready-agentic-ai-evaluation-monitoring-governance/
+Evaluating AI agents for production: A practical guide to Strands Evals - AWS, accessed April 12, 2026, https://aws.amazon.com/blogs/machine-learning/evaluating-ai-agents-for-production-a-practical-guide-to-strands-evals/
+LLM as a Judge - Primer and Pre-Built Evaluators - Arize AI, accessed April 12, 2026, https://arize.com/llm-as-a-judge/
+A Survey on Agent-as-a-Judge - arXiv, accessed April 12, 2026, https://arxiv.org/html/2601.05111v1
+Agent-as-a-Judge: Evaluate Agents with Agents - ICML 2026, accessed April 12, 2026, https://icml.cc/virtual/2025/poster/45485
+Agent-as-a-Judge: Evaluate Agents with Agents - OpenReview, accessed April 12, 2026, https://openreview.net/forum?id=Nn9POI9Ekt
+Agent-as-a-Judge:Evaluate Agents with Agents - arXiv, accessed April 12, 2026, https://arxiv.org/html/2410.10934v2
+About - Arklex.AI | Prove Agent Readiness Before Production, accessed April 12, 2026, https://www.arklex.ai/home/aboutus
+We built an open-source tool to test AI agents in real conversations : r/AIAssisted - Reddit, accessed April 12, 2026, https://www.reddit.com/r/AIAssisted/comments/1sb3z9x/we_built_an_opensource_tool_to_test_ai_agents_in/
+ArkSim: a Testing framework for LangChain/LangGraph - Talking ..., accessed April 12, 2026, https://forum.langchain.com/t/arksim-a-testing-framework-for-langchain-langgraph/3136
+We built an open source tool for testing AI agents in multi-turn conversations - Reddit, accessed April 12, 2026, https://www.reddit.com/r/OpenAIDev/comments/1sarf5a/we_built_an_open_source_tool_for_testing_ai/
+Our Blog - Arklex.AI | Prove Agent Readiness Before Production, accessed April 12, 2026, https://www.arklex.ai/home/blogs
+Beyond Benchmark Islands: Toward Representative Trustworthiness Evaluation for Agentic AI - arXiv, accessed April 12, 2026, https://arxiv.org/pdf/2603.14987
+AgentDrive: An Open Benchmark Dataset for Agentic AI Reasoning with LLM-Generated Scenarios in Autonomous Systems - arXiv, accessed April 12, 2026, https://arxiv.org/html/2601.16964v1
+Introducing AI Cyber Model Arena: A Real-World Benchmark for AI Agents in Cybersecurity, accessed April 12, 2026, https://www.wiz.io/blog/introducing-ai-cyber-model-arena-a-real-world-benchmark-for-ai-agents-in-cybersec
+Vchitect/Evaluation-Agent: [ACL2025 Oral & Award] Evaluate Image/Video Generation like Humans - Fast, Explainable, Flexible · GitHub, accessed April 12, 2026, https://github.com/Vchitect/Evaluation-Agent
+Judge Reliability Harness: Stress Testing the Reliability of LLM Judges - arXiv, accessed April 12, 2026, https://arxiv.org/html/2603.05399v1
+LLM-As-A-Judge: Reliability, Bias, And What The Research Says | Adaline, accessed April 12, 2026, https://www.adaline.ai/blog/llm-as-a-judge-reliability-bias
+Grading Scale Impact on LLM-as-a-Judge: Human-LLM Alignment Is Highest on 0-5 Grading Scale - arXiv, accessed April 12, 2026, https://arxiv.org/html/2601.03444v1
+Judge Reliability Harness: Stress Testing the Reliability of LLM Judges - ResearchGate, accessed April 12, 2026, https://www.researchgate.net/publication/401600618_Judge_Reliability_Harness_Stress_Testing_the_Reliability_of_LLM_Judges
+The Hidden Economics of AI Agents: Managing Token Costs and Latency Trade-offs, accessed April 12, 2026, https://online.stevens.edu/blog/hidden-economics-ai-agents-token-costs-latency/
+Beyond Accuracy: A Multi-Dimensional Framework for Evaluating Enterprise Agentic AI Systems - arXiv, accessed April 12, 2026, https://arxiv.org/html/2511.14136v1
+What is Your Agent's GPA? A Framework for Evaluating Agent Goal-Plan-Action Alignment, accessed April 12, 2026, https://arxiv.org/html/2510.08847v2
+Evaluating Agentic AI Systems: A Balanced Framework for Performance, Robustness, Safety and Beyond - TechRxiv, accessed April 12, 2026, https://www.techrxiv.org/doi/pdf/10.36227/techrxiv.175693283.32347108
+The Measurement Imbalance in Agentic AI Evaluation Undermines Industry Productivity Claims - arXiv, accessed April 12, 2026, https://arxiv.org/html/2506.02064v2
+GitHub - agentscope-ai/agentscope: Build and run agents you can see, understand and trust., accessed April 12, 2026, https://github.com/agentscope-ai/agentscope
+mims-harvard/ark-agent-cli - GitHub, accessed April 12, 2026, https://github.com/mims-harvard/ark-agent-cli
+BenchAgents: Multi-Agent Systems for Structured Benchmark Creation - arXiv, accessed April 12, 2026, https://arxiv.org/html/2410.22584v2
+Best AI Agent Evaluation Tools in 2025 - What I Learned Testing 6 Platforms - Reddit, accessed April 12, 2026, https://www.reddit.com/r/AIQuality/comments/1pv297u/best_ai_agent_evaluation_tools_in_2025_what_i/
