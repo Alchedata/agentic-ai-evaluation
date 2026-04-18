@@ -1,0 +1,60 @@
+% ══════════════════════════════════════════════════════════════════════
+% SECTION VI
+% ══════════════════════════════════════════════════════════════════════
+\section{From Lab to Production: The Enterprise Readiness Standard}
+\label{sec:enterprise}
+
+\subsection{The CLEAR Framework for Deployment Governance}
+
+For organizations to move beyond pilots, they require a holistic evaluation across what is known as the \keyword{CLEAR dimensions}~\citep{beyond_accuracy}:
+
+\begin{description}[style=nextline,leftmargin=1em]
+    \item[C --- Cost per task] (absolute and normalized): Not just the raw cost of API calls and compute, but the cost normalized by task complexity and success rate. CNA provides the standard metric.
+    \item[L --- Latency] (time to first token, end-to-end response): Not just average latency, but the full distribution---including P95 and P99 latency, which determine whether the agent meets SLA requirements. Time-to-first-token (TTFT) and total response time both impact real-time usability.
+    \item[E --- Efficacy and accuracy] (trajectory-level, not outcome-only): Moving beyond binary success metrics to evaluate the complete execution path. This includes the Agent GPA decomposition (Goal-Plan-Action) and trajectory coherence metrics.
+    \item[A --- Adherence and reliability] (policy compliance, idempotency): Whether the agent respects established constraints, follows operational policies, and handles retries safely without causing unintended side effects. Constraint violation rates and idempotency testing are essential.
+    \item[R --- Resilience and stability] (failure recovery, long-session consistency): The agent's ability to recover from errors, maintain performance over long sessions, and degrade gracefully under adverse conditions rather than failing catastrophically.
+\end{description}
+
+Figure~\ref{fig:clear_radar} visualizes the CLEAR framework as a radar chart, comparing an ideal agent profile against a typical production agent.
+
+\begin{figure}[htbp]
+\centering
+\input{figures/clear_radar}
+\caption{The CLEAR framework radar chart, comparing an ideal agent profile (high scores across all dimensions) against a typical production agent (with notable gaps in Adherence and Resilience).}
+\label{fig:clear_radar}
+\end{figure}
+
+No single dimension is sufficient. An agent that scores well on accuracy but fails on adherence is not enterprise-ready. An agent that is fast but unreliable is not deployable. The CLEAR framework requires assessment across all five dimensions before deployment.
+
+\subsection{Simulation-Based Testing: Synthetic Users and Multi-Turn Stability}
+
+A significant challenge in agent development is proving readiness for production before the agent encounters real users. Tools like \keyword{ArkSim} have emerged to facilitate multi-turn conversation simulation between agents and synthetic users~\citep{agent_eval_framework}.
+
+ArkSim, an open-source framework designed for LangChain and LangGraph agents, integrates evaluations into the developer workflow via CI/CD platforms. This allows for the detection of regressions and failures early in the lifecycle. Multi-turn simulation is particularly effective for testing:
+
+\begin{itemize}[nosep]
+    \item \textbf{Context loss during long interactions}: Whether the agent maintains awareness of constraints and information established in early turns.
+    \item \textbf{Unexpected conversation paths}: Scenarios that emerge only after several turns of interaction and would not be captured by single-turn evaluation.
+    \item \textbf{Idempotency}: The ability of an agent to handle retries safely without causing unintended side effects, such as duplicating a purchase or a data entry.
+    \item \textbf{Edge cases in multi-turn reasoning}: Reasoning failures that only emerge when the agent must synthesize information across multiple turns.
+\end{itemize}
+
+Simulation-based testing bridges the gap between static benchmarks and production reality. By generating synthetic user interactions that approximate the diversity and unpredictability of real users, simulation enables teams to find issues before users do.
+
+\subsection{Human-in-the-Loop: Calibrating Automated Evaluators for High-Stakes Domains}
+
+Human-in-the-loop (HITL) processes remain essential to audit evaluation results and ensure reliability~\citep{production_ready_agentic}. Humans provide the ground truth labels for ``golden testing datasets'' used to verify agent-generated intents. However, human evaluation at scale is not economically viable for most organizations.
+
+The practical approach is a \keyword{layered evaluation strategy}:
+
+\begin{enumerate}[nosep]
+    \item \textbf{Automated evaluation} for structured, verifiable outputs: Format compliance, factual accuracy against known sources, constraint violation detection.
+    \item \textbf{LLM-as-a-Judge} for scalable quality assessment: Reasoning coherence, output quality, decision appropriateness---calibrated against human judgments.
+    \item \textbf{Agent-as-a-Judge} for complex, multi-step evaluations: Where fine-grained feedback on specific reasoning steps and tool interactions is required.
+    \item \textbf{Human evaluation} for calibration and high-stakes decisions: Periodic review of automated evaluation results, assessment of ambiguous cases, and final approval for high-stakes deployments.
+\end{enumerate}
+
+Effective tooling must prioritize the \textbf{``right'' traces for human review}---such as anomaly signals or low-confidence scores---rather than random sampling. Not all traces are equally informative; human attention should be directed toward the cases where automated evaluation is least confident or most surprising.
+
+This layered approach ensures that human expertise is deployed where it adds the most value, while automated methods handle the volume of evaluation that humans cannot.

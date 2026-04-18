@@ -1,0 +1,91 @@
+% ══════════════════════════════════════════════════════════════════════
+% SECTION V
+% ══════════════════════════════════════════════════════════════════════
+\section{Operationalizing Agency: Economics, Safety, and Latency}
+\label{sec:operational}
+
+\subsection{The Unreliability Tax and the Cost of Autonomy}
+
+Agentic AI introduces a fundamentally different cost model from traditional software infrastructure. Infrastructure costs are relatively fixed; intelligence costs are variable and correlated with agent complexity. When agents fail and retry, costs compound quickly.
+
+Research into the \keyword{Unreliability Tax} identifies the additional compute, latency, and engineering required to compensate for agent failures~\citep{measurement_imbalance}. For instance, a ``Reflexion'' loop that runs for 10 cycles can consume \textbf{50 times the tokens} of a single linear pass. This is not a marginal increase---it represents a qualitative change in the economics of AI deployment.
+
+The Unreliability Tax manifests in several ways:
+
+\begin{itemize}[nosep]
+    \item \textbf{Retry costs}: When agents fail, they must retry, consuming additional tokens and API calls. In complex workflows, a single failure can trigger a cascade of retries across multiple steps.
+    \item \textbf{Guardrail costs}: Implementing safety checks, validation steps, and human-in-the-loop checkpoints adds latency and token consumption to every workflow.
+    \item \textbf{Observability costs}: Capturing and storing execution traces for evaluation and debugging requires infrastructure and storage.
+    \item \textbf{Engineering costs}: Building and maintaining the evaluation infrastructure, red teaming pipelines, and monitoring systems represents a significant ongoing investment.
+\end{itemize}
+
+These costs are often invisible in benchmark evaluations, which typically measure accuracy in isolation. In production, they can be the difference between a viable product and an economic failure.
+
+\subsection{CNA (Cost-Normalized Accuracy) as a New Industry Standard}
+
+To evaluate economic efficiency, the metric of \keyword{Cost-Normalized Accuracy (CNA)} is used~\citep{beyond_accuracy}:
+\begin{equation}
+    \text{CNA} = \frac{\text{Accuracy}}{\text{Cost}} \times 100
+\end{equation}
+where Cost is measured in USD per task. CNA makes the accuracy-cost tradeoff explicit, enabling organizations to compare agents not just on how well they perform, but on how efficiently they achieve that performance.
+
+Evaluation of leading agent architectures on enterprise tasks demonstrates a striking result, shown in Table~\ref{tab:cna_results} and visualized in Figure~\ref{fig:cna_comparison}.
+
+\begin{table}[htbp]
+\centering
+\caption{Architecture comparison: efficacy, cost, and CNA.}
+\label{tab:cna_results}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Architecture} & \textbf{Efficacy (\%)} & \textbf{Cost (USD/Task)} & \textbf{CNA} \\
+\midrule
+ReAct-GPT-o3 & 68.7 & 0.85 & 80.8 \\
+Reflexion & 74.1 & 4.35 & 17.0 \\
+Domain-Tuned & 81.5 & 0.31 & 260.4 \\
+Plan-Execute & 71.9 & 1.05 & 68.5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\input{figures/cna_comparison}
+\caption{Architecture comparison across efficacy, cost efficiency, and Cost-Normalized Accuracy (CNA). The Domain-Tuned architecture achieves the highest CNA by combining strong efficacy with low cost, while Reflexion's high efficacy is undermined by excessive cost.}
+\label{fig:cna_comparison}
+\end{figure}
+
+The Reflexion architecture---often cited for its high accuracy---is \textbf{4.7$\times$ more expensive} than the domain-tuned alternative while delivering lower accuracy. The Domain-Tuned agent achieves the highest accuracy at the lowest cost, producing a CNA more than 15$\times$ higher than Reflexion.
+
+This finding highlights what researchers call a \keyword{distorted research landscape} where expensive and fragile solutions appear superior in standard accuracy-only benchmarks~\citep{measurement_imbalance}. Simple baseline strategies can sometimes outperform complex agents at 50$\times$ lower cost.
+
+\textbf{CNA should be a standard reporting requirement alongside any accuracy metric.} Any benchmark result reported without cost normalization is incomplete. The most accurate agent in an evaluation suite may be economically inviable at production scale.
+
+\subsection{Security Challenges: Offensive Agentic Risk and API/MCP Gateways}
+
+As agentic systems gain the ability to take autonomous actions, the security implications become critical~\citep{securing_ai_agents}. The attack surface of agentic environments maps across four layers, as illustrated in Figure~\ref{fig:security_layers}.
+
+\begin{figure}[htbp]
+\centering
+\input{figures/security_layers}
+\caption{The four-layer security attack surface for agentic AI systems, from runtime infrastructure to endpoint users, with representative threat vectors at each layer.}
+\label{fig:security_layers}
+\end{figure}
+
+\begin{enumerate}[nosep]
+    \item \textbf{The Endpoint Layer} (e.g., coding agents): Compromise of the agent's execution environment, including local file systems, development environments, and developer machines.
+    \item \textbf{The API/MCP Gateway Layer} (tool exchanges): Manipulation of the tool interfaces that agents use to interact with external systems. A compromised API can feed the agent malicious data, causing it to take harmful actions.
+    \item \textbf{The SaaS Platform Layer}: Exploitation of the SaaS applications that agents interact with---CRM systems, communication platforms, cloud services---through the agent's authorized access.
+    \item \textbf{The Runtime Layer}: Attacks on the agent's execution runtime, including prompt injection, context manipulation, and goal hijacking.
+\end{enumerate}
+
+CISOs are encouraged to implement a three-stage security framework:
+
+\begin{itemize}[nosep]
+    \item \textbf{Visibility}: Knowing what agents you have, what tools they can access, and what actions they are taking. You cannot secure what you cannot see.
+    \item \textbf{Configuration}: Reducing the blast radius by implementing least-privilege access, tool restrictions, and action boundaries. Agents should have the minimum permissions necessary for their tasks.
+    \item \textbf{Runtime Protection}: Monitoring agent behavior in real-time for anomalous actions, policy violations, and indicators of compromise.
+\end{itemize}
+
+The security challenge is compounded by the fact that agentic systems can be manipulated through their inputs in ways that traditional software cannot. Prompt injection---embedding malicious instructions in data that the agent processes---can cause agents to take actions that violate their intended behavior. Tool poisoning---manipulating the outputs of tools that the agent relies on---can cause agents to make incorrect decisions based on falsified information.
+
+These security considerations must be integrated into evaluation from the beginning, not bolted on after deployment. An evaluation framework that does not test for security vulnerabilities is providing a false sense of security.

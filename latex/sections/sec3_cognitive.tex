@@ -1,0 +1,80 @@
+% ══════════════════════════════════════════════════════════════════════
+% SECTION III
+% ══════════════════════════════════════════════════════════════════════
+\section{Cognitive Diagnostics: Probing the Reasoning Trace}
+\label{sec:cognitive}
+
+\subsection{Repository-Level Reasoning and the Aggregation Deficit}
+
+As agentic systems are deployed on increasingly complex tasks---particularly in software engineering---evaluation must probe not just whether the agent produces correct output, but whether it can reason effectively about large, interdependent code systems.
+
+RepoReason is a diagnostic benchmark designed to evaluate repository-level reasoning in LLM agents~\citep{agent_gpa}. It moves away from code generation to a \keyword{verification-centric} approach called Abductive Assertion Verification. By masking unit test assertions and requiring the model to derive values that satisfy them, RepoReason tests the agent's ability to mentally reconstruct execution history across massive, interdependent file systems.
+
+This approach is significant because it directly tests the kind of reasoning that production agents must perform: understanding how changes in one file propagate through dependencies, predicting the behavior of code without executing it, and synthesizing information across multiple modules.
+
+Findings from RepoReason have identified critical performance ceilings for current frontier models that have direct implications for deployment:
+
+\begin{description}[style=nextline,leftmargin=1em]
+    \item[The Cliff Effect] Reading comprehension accuracy drops sharply when the volume of code exceeds approximately 600 lines. This is not a gradual decline but a precipitous drop---agents that perform well on 500-line codebases may fail catastrophically on 700-line ones.
+    \item[The Aggregation Deficit] Accuracy declines as ``integration width'' increases---meaning the number of cross-file dependencies the agent must synthesize. This is precisely the condition that characterizes real production codebases, where changes in one module can affect behavior in seemingly unrelated components.
+    \item[Consistency Decay] Models show a significant loss of consistency beyond 100 execution steps in a single trajectory. An agent that reasons correctly in steps 1--80 may begin making errors in steps 80--120, not because the later steps are harder, but because the accumulated context degrades the agent's reasoning coherence.
+\end{description}
+
+These are not model-specific quirks. They reflect fundamental constraints on how current architectures handle deep, multi-file reasoning at scale. Any evaluation methodology that does not test for these failure modes will produce overconfident deployment assessments.
+
+\subsection{The ``Cliff Effect'' and Simulation Depth Limits}
+
+The Cliff Effect deserves particular attention because it represents a qualitative rather than quantitative failure mode. Unlike gradual performance degradation, the Cliff Effect means that an agent can appear fully competent right up to the point where it catastrophically fails.
+
+This has profound implications for evaluation:
+
+\begin{enumerate}[nosep]
+    \item \textbf{Interpolation is dangerous.} If an agent performs well on 400-line codebases and poorly on 800-line ones, it is not safe to assume it performs acceptably on 600-line codebases. The cliff may occur at any point.
+    \item \textbf{Benchmark results can be misleading.} A benchmark that uses 500-line codebases will produce optimistic results that do not generalize to the 700+ line codebases common in production.
+    \item \textbf{Safety margins must be explicit.} Organizations must define maximum complexity thresholds for their agents and enforce them in production, rather than discovering the cliff through failures.
+\end{enumerate}
+
+The simulation depth limit---the point at which an agent's reasoning coherence degrades beyond recovery---is similarly consequential. For agents operating in multi-turn workflows, the 100-step consistency decay means that long-running tasks are inherently less reliable than short ones. This must be accounted for in both evaluation and deployment design:
+\begin{itemize}[nosep]
+    \item Break long workflows into shorter segments with verification checkpoints.
+    \item Implement intermediate validation steps that can catch reasoning drift before it compounds.
+    \item Monitor trajectory coherence in real-time and escalate to human oversight when degradation is detected.
+\end{itemize}
+
+\subsection{Agent GPA: Decomposing the Goal-Plan-Action Cycle}
+
+Traditional evaluation treats task completion as a monolithic outcome. But agentic behavior can be decomposed into three distinct cognitive phases, each of which can fail independently~\citep{agent_gpa}:
+
+\begin{enumerate}[nosep]
+    \item \textbf{Goal comprehension}: Does the agent correctly understand what it is being asked to do?
+    \item \textbf{Plan formulation}: Does the agent devise a sensible strategy for achieving the goal?
+    \item \textbf{Action execution}: Does the agent correctly implement the plan through tool calls and environmental interactions?
+\end{enumerate}
+
+The \keyword{Agent GPA} (Goal-Plan-Action) framework evaluates each phase independently, producing a profile rather than a single score. Figure~\ref{fig:agent_gpa} illustrates this decomposition.
+
+\begin{figure}[htbp]
+\centering
+\input{figures/agent_gpa}
+\caption{The Agent GPA framework decomposes agentic behavior into Goal comprehension, Plan formulation, and Action execution, with failure modes identified at each phase and a composite GPA score reflecting overall alignment.}
+\label{fig:agent_gpa}
+\end{figure}
+
+This decomposition is critical because the remediation for each type of failure is fundamentally different, as shown in Table~\ref{tab:gpa_failures}.
+
+\begin{table}[htbp]
+\centering
+\caption{GPA failure phases, symptoms, root causes, and remediations.}
+\label{tab:gpa_failures}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Phase} & \textbf{Symptom} & \textbf{Root Cause} & \textbf{Remediation} \\
+\midrule
+Goal & Solves wrong problem & Misunderstood intent & Prompt eng., clarification \\
+Plan & Suboptimal path & Insufficient reasoning & Reflection loops, verification \\
+Action & Execution errors & Tool use failures & Better descriptions, validation \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+An agent with a high Goal score but low Action score understands what to do but cannot execute it. An agent with a high Action score but low Goal score can execute flawlessly---but on the wrong task. These are fundamentally different problems requiring fundamentally different solutions.

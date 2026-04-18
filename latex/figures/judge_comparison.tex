@@ -1,0 +1,46 @@
+% LLM-as-a-Judge vs Agent-as-a-Judge Comparison
+\begin{tikzpicture}[
+    panel/.style={rectangle, rounded corners=8pt, draw=#1!60!black, fill=#1!5,
+        minimum width=5.5cm, minimum height=6cm, inner sep=10pt},
+    jbox/.style={rectangle, rounded corners=4pt, draw=#1!60!black, fill=#1!15,
+        minimum width=4.5cm, minimum height=0.8cm, align=center, font=\small},
+    arr/.style={-{Stealth[length=5pt]}, thick, #1!60}
+]
+
+% Left panel: LLM-as-a-Judge
+\node[panel=pillar1] at (0,0) {};
+\node[font=\bfseries\normalsize, text=pillar1!70!black] at (0, 2.5) {LLM-as-a-Judge};
+
+\node[jbox=pillar1] (l1) at (0, 1.5) {Single-turn evaluation};
+\node[jbox=pillar1] (l2) at (0, 0.5) {Output comparison only};
+\node[jbox=pillar1] (l3) at (0, -0.5) {No execution context};
+\node[jbox=riskred] (l4) at (0, -1.5) {Low process awareness};
+\node[jbox=riskred] (l5) at (0, -2.5) {${\sim}54\%$ human alignment};
+
+\draw[arr=pillar1] (l1) -- (l2);
+\draw[arr=pillar1] (l2) -- (l3);
+\draw[arr=pillar1] (l3) -- (l4);
+\draw[arr=riskred] (l4) -- (l5);
+
+% Right panel: Agent-as-a-Judge
+\node[panel=pillar2] at (7.5,0) {};
+\node[font=\bfseries\normalsize, text=pillar2!70!black] at (7.5, 2.5) {Agent-as-a-Judge};
+
+\node[jbox=pillar2] (r1) at (7.5, 1.5) {Multi-turn evaluation};
+\node[jbox=pillar2] (r2) at (7.5, 0.5) {Trajectory analysis};
+\node[jbox=pillar2] (r3) at (7.5, -0.5) {Full execution context};
+\node[jbox=pillar2] (r4) at (7.5, -1.5) {High process awareness};
+\node[jbox=safegreen] (r5) at (7.5, -2.5) {${\sim}80\%+$ human alignment};
+
+\draw[arr=pillar2] (r1) -- (r2);
+\draw[arr=pillar2] (r2) -- (r3);
+\draw[arr=pillar2] (r3) -- (r4);
+\draw[arr=safegreen] (r4) -- (r5);
+
+% VS divider
+\node[font=\Huge\bfseries, text=alchegray] at (3.75, 0) {vs};
+
+% Bottom annotation
+\node[font=\scriptsize, text=alchegray, align=center] at (3.75, -3.8) {Agent-as-a-Judge provides deeper process evaluation\\but requires Judge Reliability Harness validation};
+
+\end{tikzpicture}

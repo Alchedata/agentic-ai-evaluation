@@ -1,0 +1,33 @@
+% CLEAR Framework Radar Chart
+\begin{tikzpicture}
+\begin{polaraxis}[
+    width=8cm,
+    xtick={0, 72, 144, 216, 288},
+    xticklabels={Cost, Latency, Efficacy, Adherence, Resilience},
+    xticklabel style={font=\small\bfseries},
+    ytick={20, 40, 60, 80, 100},
+    yticklabels={20, 40, 60, 80, 100},
+    yticklabel style={font=\tiny, color=gray},
+    ymin=0, ymax=100,
+    grid=both,
+    grid style={gray!20},
+    title={\textbf{CLEAR Framework Dimensions}},
+    title style={font=\normalsize, text=alchedark, at={(0.5, 1.15)}}
+]
+
+% Ideal profile
+\addplot[fill=pillar2!30, draw=pillar2!70, thick, mark=none] coordinates {
+    (0, 70) (72, 75) (144, 85) (216, 90) (288, 80) (360, 70)
+};
+\addlegendentry{Ideal Profile}
+
+% Typical production agent
+\addplot[fill=riskred!20, draw=riskred!60, thick, mark=none] coordinates {
+    (0, 45) (72, 50) (144, 72) (216, 55) (288, 35) (360, 45)
+};
+\addlegendentry{Typical Agent}
+
+\legend{Ideal Profile, Typical Agent}
+
+\end{polaraxis}
+\end{tikzpicture}

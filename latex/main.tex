@@ -1,0 +1,309 @@
+% Evaluating the Autonomous Mind: A Multi-Dimensional Framework for Agentic AI Readiness
+% A White Paper by Alchedata
+% Version 1.0, April 2026
+
+\documentclass[11pt,a4paper]{article}
+
+% ── Packages ──────────────────────────────────────────────────────────
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{natbib}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{float}
+\usepackage{multicol}
+
+% ── TikZ Libraries ───────────────────────────────────────────────────
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, fit, backgrounds, decorations.pathreplacing, shadows.blur, matrix}
+
+% ── pgfplots Setup ───────────────────────────────────────────────────
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{polar}
+
+% ── Colors ────────────────────────────────────────────────────────────
+\definecolor{alcheblue}{RGB}{31, 78, 121}
+\definecolor{alchedark}{RGB}{20, 50, 80}
+\definecolor{alchegray}{RGB}{108, 117, 125}
+\definecolor{alchelight}{RGB}{220, 230, 241}
+\definecolor{pillar1}{RGB}{41, 128, 185}
+\definecolor{pillar2}{RGB}{39, 174, 96}
+\definecolor{pillar3}{RGB}{230, 126, 34}
+\definecolor{pillar4}{RGB}{142, 68, 173}
+\definecolor{riskred}{RGB}{192, 57, 43}
+\definecolor{safegreen}{RGB}{39, 174, 96}
+
+% ── Hyperref Setup ───────────────────────────────────────────────────
+\hypersetup{
+    colorlinks=true,
+    linkcolor=alcheblue,
+    citecolor=alcheblue,
+    urlcolor=alcheblue,
+    breaklinks=true
+}
+
+% ── Page Style ────────────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{Evaluating the Autonomous Mind}}
+\fancyhead[R]{\small\textit{Alchedata}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ── Section Formatting ───────────────────────────────────────────────
+\titleformat{\section}{\Large\bfseries\color{alcheblue}}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries\color{alchedark}}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{alchedark}}{\thesubsubsection}{1em}{}
+
+% ── Custom Commands ──────────────────────────────────────────────────
+\newcommand{\keyword}[1]{\textbf{\color{alcheblue}#1}}
+\newcommand{\cmark}{\textcolor{safegreen}{\checkmark}}
+\newcommand{\xmark}{\textcolor{riskred}{\texttimes}}
+
+% ── Title Page ────────────────────────────────────────────────────────
+\title{
+    \vspace{-1cm}
+    {\Huge\bfseries\color{alcheblue} Evaluating the Autonomous Mind}\\[6pt]
+    {\Large\color{alchedark} A Multi-Dimensional Framework for Agentic AI Readiness}\\[18pt]
+    {\large A White Paper by Alchedata}\\[6pt]
+    {\normalsize Version 1.0 \quad$\cdot$\quad April 2026}
+}
+
+\author{}
+\date{}
+
+% ══════════════════════════════════════════════════════════════════════
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\vspace{1cm}
+\begin{abstract}
+\noindent
+The transition from static large language models to autonomous agentic systems between 2024 and 2026 has exposed a fundamental measurement crisis: evaluation methodologies inherited from traditional NLP fail to capture the non-deterministic, multi-step, tool-mediated nature of agentic behavior. Binary success metrics treat agents as black boxes, measuring where they ended up rather than how they got there---a phenomenon we term the \emph{success masking problem}. This white paper synthesizes emerging research into a comprehensive evaluation framework built on four pillars (Core Model, Memory, Tool Use, and Environment), introduces trajectory-level metrics that evaluate the complete execution path, addresses the Evaluator Paradox through Agent-as-a-Judge paradigms and the Judge Reliability Harness, and proposes the CLEAR framework (Cost, Latency, Efficacy, Adherence, Resilience) as an enterprise readiness standard. We present Cost-Normalized Accuracy (CNA) as a mandatory reporting requirement and survey the open-source tooling landscape that makes these methods practical. The goal: to close the measurement imbalance that currently allows agents to pass benchmarks while failing in production.
+\end{abstract}
+
+\vspace{0.5cm}
+\noindent\textbf{Keywords:} Agentic AI, evaluation frameworks, trajectory metrics, Agent-as-a-Judge, Cost-Normalized Accuracy, CLEAR framework, enterprise readiness
+
+\newpage
+\tableofcontents
+\newpage
+
+% ══════════════════════════════════════════════════════════════════════
+% SECTION I
+% ══════════════════════════════════════════════════════════════════════
+\section{Introduction: The Death of the Black-Box Success Metric}
+\label{sec:intro}
+
+\subsection{The Transition from LLM Chatbots to Agentic Collaborators}
+
+Between 2024 and 2026, the enterprise AI landscape underwent a fundamental transformation. The shift from standard large language models to autonomous agentic systems represents not an incremental improvement in capability, but a qualitative change in the computational paradigm itself. Where traditional LLMs operated as sophisticated response engines---accepting a prompt and returning a completion---agentic systems function as persistent, goal-directed entities that perceive, plan, act, and interact with complex environments over extended timeframes.
+
+This transition has been driven by three converging forces. First, the maturation of model capabilities---particularly in reasoning and instruction following---has made it feasible for LLMs to serve as the cognitive core of autonomous systems. Second, the development of standardized tool-use protocols and orchestration frameworks (LangChain, LangGraph, CrewAI, AutoGen) has lowered the engineering barrier to building multi-step agent workflows. Third, enterprise demand for automation that goes beyond content generation---toward actual task execution---has created a commercial imperative for agentic deployment.
+
+The result has been a sharp acceleration in production-grade agentic systems. Chat interfaces, browser-based agents, and enterprise automation platforms have led the surge, with an estimated 87\% of Fortune 500 companies piloting or deploying agentic AI systems by Q1 2026. These systems are no longer research prototypes. They are booking flights, executing trades, processing insurance claims, writing and deploying code, and managing customer service interactions---autonomously, and at scale.
+
+\subsection{Defining ``Agenticness'': Autonomy, Goal-Driven Reasoning, and Scaffolded Intelligence}
+
+Not every system that uses an LLM is agentic. The distinction matters because the degree of agency directly determines the complexity of the evaluation challenge. We define agenticness along three axes:
+
+\begin{description}[style=nextline,leftmargin=1em]
+    \item[Autonomy] The system's capacity to generate tasks, decisions, and strategies without explicit step-by-step human instruction. A conventional AI requires predefined inputs and task boundaries; an agentic system defines its own sub-goals and execution path.
+    \item[Goal-Driven Reasoning] The system's ability to decompose high-level objectives into actionable plans and pursue them across multiple steps, adapting when intermediate results deviate from expectations. This is distinct from single-turn inference, where the model responds to an isolated prompt.
+    \item[Scaffolded Intelligence] The degree to which the system's capability is determined not just by the underlying model, but by the surrounding cognitive architecture: prompt engineering, reflection loops, planning layers, memory management, and tool orchestration. A critical finding from 2025 research is that even when underlying models (like GPT-4 or Claude 3.5) are older or less capable, the agentic scaffolding determines the ultimate capability and productization of the system~\citep{beyond_task_completion}.
+\end{description}
+
+These three axes define a spectrum of agenticness. A system that exhibits all three at high levels is fully agentic; one that exhibits some is semi-agentic. The evaluation methodology must scale with the degree of agency. Table~\ref{tab:conventional_vs_agentic} contrasts the two paradigms.
+
+\begin{table}[htbp]
+\centering
+\caption{Conventional AI vs.\ Agentic AI across key dimensions.}
+\label{tab:conventional_vs_agentic}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Dimension} & \textbf{Conventional AI} & \textbf{Agentic AI} \\
+\midrule
+Adaptability & Predefined tasks, static rules & Dynamic, evolving environments \\
+Autonomy & Predefined inputs, boundaries & Self-generated sub-goals \\
+Data Dependency & Fixed training data & Real-time perception \& planning \\
+Decision-Making & Deterministic rules & Context-aware, multi-agent \\
+Resource Requirements & Moderate complexity & High orchestration demands \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{The Inadequacy of Current Benchmarks: Non-Determinism and the ``Success Masking'' Problem}
+
+Traditional model evaluation is outcome-based: did the model produce the correct output given this input? For a summarization task or a classification benchmark, this is reasonable. The output is the artifact. There is nothing else to measure.
+
+Agents are different. An agent operates in a continuous decision loop---sensing, planning, acting, and updating state across multiple turns and tool calls. The final output may be correct even when the path to it was broken: an agent can complete a task while violating a safety policy, bypassing an authorization check, or skipping a diagnostic step that would have caught a downstream failure.
+
+Binary success metrics treat the agent as a black box. They measure where it ended up, not how it got there.
+
+This is what researchers now call the \keyword{success masking problem}---agents that appear to succeed while simultaneously creating latent risk. It is not a corner case. It is a systematic failure mode of any evaluation methodology that ignores the execution trajectory~\citep{beyond_benchmark_islands}.
+
+Figure~\ref{fig:success_masking} illustrates this problem: outcome-only evaluation sees only the final result, while trajectory evaluation reveals the policy violations and skipped steps along the path.
+
+\begin{figure}[htbp]
+\centering
+\input{figures/success_masking}
+\caption{The success masking problem. Outcome-only evaluation (left) sees only the final result, while trajectory evaluation (right) reveals policy violations and skipped steps along the execution path.}
+\label{fig:success_masking}
+\end{figure}
+
+The implications are severe. Organizations are making multi-million dollar infrastructure commitments based on evaluation methodologies that were designed for a fundamentally different paradigm. The result is a growing class of production failures that are entirely invisible to the benchmarks teams rely on.
+
+
+% ══════════════════════════════════════════════════════════════════════
+% SECTION II
+% ══════════════════════════════════════════════════════════════════════
+\section{Theoretical Foundations of Agent Assessment}
+\label{sec:foundations}
+
+\subsection{The Four-Pillar Model: Core Model, Memory, Tools, and Environment}
+
+Effective agentic evaluation requires decomposing the agent into its functional components and testing each independently. The Agent Assessment Framework (AAF), developed from foundational work at Anthropic and refined in industry deployments, proposes four architectural pillars~\citep{beyond_task_completion}. These pillars isolate specific components of the agentic scaffold to identify where failures originate---whether in the core model, the memory system, the tool-use logic, or the environmental interaction. Figure~\ref{fig:pillar_model} provides a visual overview.
+
+\begin{figure}[htbp]
+\centering
+\input{figures/pillar_model}
+\caption{The Four-Pillar Model for Agent Assessment. Each pillar isolates a functional component of the agentic scaffold, enabling targeted evaluation and diagnosis of failure origins.}
+\label{fig:pillar_model}
+\end{figure}
+
+\subsubsection{The Core Model Pillar}
+
+Evaluation at the core model level focuses on instruction following and policy alignment. It assesses whether the agent adheres to the intended sequence of objectives and respects established constraints. A critical finding in 2025 research is that even when underlying models are older, the agentic scaffolding---the prompt engineering, reflection loops, and planning layers---determines the ultimate capability and productization of the system~\citep{beyond_task_completion}.
+
+Evaluation at this pillar often involves measuring \keyword{calibration error}---the alignment between an agent's confidence and its actual accuracy---which is vital for risk-sensitive workflows. An agent that is consistently overconfident in incorrect outputs is far more dangerous than one that signals uncertainty. Calibration error is measured by comparing the agent's self-assessed confidence scores against its actual success rate across a distribution of tasks.
+
+Key metrics for the core model pillar include:
+\begin{itemize}[nosep]
+    \item \textbf{Instruction adherence rate}: The proportion of tasks where the agent follows the specified instruction sequence without deviation.
+    \item \textbf{Constraint compliance}: Whether the agent respects boundaries established earlier in a conversation or workflow.
+    \item \textbf{Calibration error}: The divergence between confidence estimates and actual accuracy, typically measured using Expected Calibration Error (ECE).
+    \item \textbf{Policy alignment}: The degree to which the agent's behavior conforms to stated operational policies.
+\end{itemize}
+
+\subsubsection{The Memory Pillar}
+
+Memory management is evaluated through storage efficiency and retrieval accuracy. This pillar measures the agent's ability to update contextual data without duplication and tracks ``update latency''---the time between an environmental change and the agent's incorporation of that change into its working context.
+
+In long-running sessions, agents frequently suffer from \keyword{context retention failures}---losing track of constraints established in early turns, a phenomenon sometimes called being ``lost in the middle'' of the context window. This is not merely an inconvenience; in production workflows, an agent that forgets a constraint established in turn 3 can violate a safety policy in turn 15 without any awareness of the violation.
+
+Metrics such as Precision, Recall, F1-score, and BLEU-1 are employed against gold-standard labels to ensure accurate information extraction from historical context:
+\begin{itemize}[nosep]
+    \item \textbf{Retrieval precision}: Of the information the agent retrieved from memory, how much was relevant to the current task?
+    \item \textbf{Retrieval recall}: Of the information available in memory that was relevant, how much did the agent actually retrieve?
+    \item \textbf{Update accuracy}: When the agent updates its context with new information, how accurately does it represent the change?
+    \item \textbf{Duplication rate}: The frequency with which the agent stores redundant or conflicting information in memory.
+    \item \textbf{Context retention span}: The number of turns over which the agent maintains accurate awareness of previously established constraints.
+\end{itemize}
+
+\subsubsection{The Tool Use Pillar}
+
+Tool interaction is perhaps the most active area of agentic failure. Evaluation frameworks assess tool selection accuracy, parameter mapping, and tool sequencing. For instance, an agent must not only choose the correct tool (e.g., a monitoring tool vs.\ an audit tool) but must also pass semantically accurate parameters, such as using an Instance ID rather than a Region Name.
+
+Production-grade agents must demonstrate resilience by recognizing and recovering from invalid tool invocations, malformed parameters, and unexpected response formats. The tool use pillar evaluates:
+\begin{itemize}[nosep]
+    \item \textbf{Tool selection accuracy}: Whether the agent chooses the appropriate tool for each sub-task.
+    \item \textbf{Parameter mapping fidelity}: Whether the agent passes correct, semantically appropriate parameters to each tool.
+    \item \textbf{Tool sequencing}: Whether the agent calls tools in the correct order when dependencies exist.
+    \item \textbf{Error recovery}: The agent's ability to recognize and handle invalid invocations and malformed responses without cascading failure.
+    \item \textbf{Idempotency}: Whether the agent can handle retries safely without causing unintended side effects, such as duplicating a purchase or a data entry.
+\end{itemize}
+
+\subsubsection{The Environment Pillar}
+
+Environmental evaluation examines how the agent responds to resource limitations, authorization failures, and changes in environmental constraints. It assesses the agent's ability to preserve intended workflows within real or simulated operational contexts. Secure operation in these environments requires validating authentication, enforcing role-based access controls, and limiting agent access based on least-privilege principles.
+
+The environment pillar is particularly important because it tests the agent's behavior under conditions that are difficult to replicate in static test sets:
+\begin{itemize}[nosep]
+    \item \textbf{Resource constraint handling}: How the agent behaves when API rate limits are hit, memory is constrained, or compute resources are limited.
+    \item \textbf{Authorization failure recovery}: Whether the agent gracefully handles permission errors and seeks alternative approaches rather than retrying indefinitely.
+    \item \textbf{Environmental change adaptation}: Whether the agent detects and adapts when the environment changes.
+    \item \textbf{Least-privilege compliance}: Whether the agent restricts its own actions to the minimum necessary permissions.
+\end{itemize}
+
+Testing across all four pillars is what separates a benchmark score from a deployment readiness assessment.
+
+\subsection{Static Verification vs.\ Dynamic Execution Monitoring}
+
+The assessment of agentic AI has moved beyond static test sets toward dynamic, interactive, and judge-based methodologies that capture the fluid nature of agent-environment interactions.
+
+Static analysis validates agent behavior against predefined ground-truth specifications and ``golden labels.'' This approach is necessary but insufficient. It confirms that the agent produces correct outputs for known inputs, but it cannot capture the full range of behaviors that emerge during actual execution.
+
+However, many failures in multi-agent systems only surface during dynamic execution. Dynamic analysis involves monitoring runtime behaviors to detect deviations, policy violations, and guardrail breaches during actual interaction with tools and environments. This approach allows for the measurement of \keyword{trajectory metrics}, which evaluate the complete execution path---every reasoning step and tool call---rather than just the final output.
+
+The distinction is fundamental, as summarized in Table~\ref{tab:static_vs_dynamic}.
+
+\begin{table}[htbp]
+\centering
+\caption{Static verification vs.\ dynamic execution monitoring.}
+\label{tab:static_vs_dynamic}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Aspect} & \textbf{Static Verification} & \textbf{Dynamic Monitoring} \\
+\midrule
+What is measured & Output vs.\ golden labels & Complete execution trajectory \\
+When measured & Pre-deployment, curated test sets & During execution, real/simulated env \\
+Failure modes & Incorrect outputs & Process failures, policy violations \\
+Adaptability & Fixed test set & Responsive to env changes \\
+Scalability & High (automated) & Moderate (requires instrumentation) \\
+Coverage & Known scenarios & Emergent behaviors \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Effective evaluation requires both. Static verification provides a baseline; dynamic monitoring reveals the behaviors that matter in production.
+
+\subsection{The Socio-Technical Scenario Manifold: Beyond Benchmark Islands}
+
+A fundamental limitation of current evaluation practice is its reliance on what researchers call ``benchmark islands''---disconnected instances of task completion that fail to represent the full distribution of conditions an agent will encounter in deployment.
+
+The Holographic Agent Assessment Framework (HAAF) proposes a move from benchmark islands to a \keyword{scenario manifold} that characterizes agent trustworthiness over a representative socio-technical distribution~\citep{beyond_benchmark_islands}. The framework models each scenario $s \in \mathcal{S}$ as a structured configuration varying along axes such as task objective, tool interface, and social context. The framework produces a vector of trustworthiness measurements $\mathbf{m}(a, s)$, which are then aggregated over a weighted test set $Q \subset \mathcal{S}$ to yield an estimated trustworthiness profile:
+\begin{equation}
+    \hat{\mathbf{T}}_Q(a) = \frac{1}{Z} \sum_{s \in Q} w(s)\, \mathbf{m}(a, s)
+\end{equation}
+where $w(s)$ encodes deployment relevance and risk sensitivity, and $Z$ is a normalization factor. This allows for a risk-aware assessment where high-consequence scenarios are upweighted.
+
+The key insight is that not all scenarios are equally important. An agent that performs well on low-stakes tasks but fails on high-stakes ones is not trustworthy, even if its average performance across all scenarios appears acceptable. The scenario manifold approach enables organizations to weight evaluation by the consequences of failure, producing an assessment that reflects real-world risk.
+
+This represents a paradigm shift from ``how often does the agent succeed?'' to ``how trustworthy is the agent in the scenarios that matter most?''
+
+
+% ══════════════════════════════════════════════════════════════════════
+% SECTIONS III–IX (loaded from sub-files)
+% ══════════════════════════════════════════════════════════════════════
+\input{sections/sec3_cognitive}
+\input{sections/sec4_evaluator}
+\input{sections/sec5_operational}
+\input{sections/sec6_enterprise}
+\input{sections/sec7_tooling}
+\input{sections/sec89_future_conclusion}
+
+
+% ══════════════════════════════════════════════════════════════════════
+% REFERENCES
+% ══════════════════════════════════════════════════════════════════════
+\newpage
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
+

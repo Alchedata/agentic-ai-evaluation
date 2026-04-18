@@ -1,0 +1,42 @@
+% Agent GPA: Goal-Plan-Action Alignment Framework
+\begin{tikzpicture}[
+    box/.style={rectangle, rounded corners=5pt, draw=#1!70!black, fill=#1!15, 
+        minimum width=3cm, minimum height=1.2cm, align=center, font=\small\bfseries, 
+        text=#1!70!black, line width=0.8pt},
+    fail/.style={rectangle, rounded corners=3pt, draw=riskred!70, fill=riskred!10,
+        minimum width=2.4cm, minimum height=0.7cm, align=center, font=\scriptsize,
+        text=riskred!80},
+    arr/.style={-{Stealth[length=5pt]}, thick, alcheblue!70},
+    farr/.style={-{Stealth[length=4pt]}, thick, riskred!50, dashed}
+]
+
+% Main pipeline
+\node[box=pillar1] (goal) at (0,0) {Goal\\Specification};
+\node[box=pillar2] (plan) at (4.5,0) {Plan\\Generation};
+\node[box=pillar3] (action) at (9,0) {Action\\Execution};
+\node[box=pillar4] (result) at (13.5,0) {Outcome\\Evaluation};
+
+% Arrows
+\draw[arr] (goal) -- (plan);
+\draw[arr] (plan) -- (action);
+\draw[arr] (action) -- (result);
+
+% Failure modes below
+\node[fail] (f1) at (2.25,-2) {Goal drift};
+\node[fail] (f2) at (6.75,-2) {Plan deviation};
+\node[fail] (f3) at (11.25,-2) {Action misalignment};
+
+\draw[farr] (goal.south) -- (f1.north);
+\draw[farr] (plan.south) -- (f2.north);
+\draw[farr] (action.south) -- (f3.north);
+
+% GPA score
+\node[rectangle, rounded corners=4pt, draw=alchedark, fill=alchedark!15, 
+    minimum width=2cm, minimum height=0.8cm, font=\bfseries, text=alchedark] 
+    (gpa) at (13.5,-2) {GPA Score};
+\draw[arr] (result.south) -- (gpa.north);
+
+% Feedback loop
+\draw[arr, bend right=25, alcheblue!40] (result.north) to node[above, font=\scriptsize, text=alchegray] {Reflection} (goal.north);
+
+\end{tikzpicture}

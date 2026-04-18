@@ -1,0 +1,42 @@
+% Security Attack Surface: Four Layers of Agentic AI Vulnerability
+\begin{tikzpicture}[
+    layer/.style={rectangle, rounded corners=6pt, draw=#1!70!black, fill=#1!12,
+        minimum width=12cm, minimum height=1.3cm, align=center, font=\small,
+        inner sep=6pt},
+    threat/.style={rectangle, rounded corners=3pt, draw=riskred!60, fill=riskred!8,
+        minimum width=2.8cm, minimum height=0.6cm, align=center, font=\scriptsize,
+        text=riskred!80},
+    arr/.style={-{Stealth[length=4pt]}, thick, alchegray!60}
+]
+
+% Layers (bottom to top)
+\node[layer=pillar4] (l1) at (0, 0) {\textbf{Runtime Layer} \quad Container escapes, resource exhaustion, sandbox breaches};
+\node[layer=pillar3] (l2) at (0, 1.8) {\textbf{SaaS / Application Layer} \quad Data exfiltration, privilege escalation, API abuse};
+\node[layer=pillar2] (l3) at (0, 3.6) {\textbf{API / MCP Layer} \quad Prompt injection, tool poisoning, context manipulation};
+\node[layer=pillar1] (l4) at (0, 5.4) {\textbf{Endpoint / User Layer} \quad Social engineering, credential theft, session hijacking};
+
+% Arrows between layers
+\draw[arr] (l1) -- (l2);
+\draw[arr] (l2) -- (l3);
+\draw[arr] (l3) -- (l4);
+
+% Threat examples on the right
+\node[threat] (t1) at (8.5, 0) {Container escape};
+\node[threat] (t2) at (8.5, 1.8) {Data exfiltration};
+\node[threat] (t3) at (8.5, 3.6) {Prompt injection};
+\node[threat] (t4) at (8.5, 5.4) {Social engineering};
+
+\draw[riskred!40, dashed, -{Stealth[length=3pt]}] (l1.east) -- (t1.west);
+\draw[riskred!40, dashed, -{Stealth[length=3pt]}] (l2.east) -- (t2.west);
+\draw[riskred!40, dashed, -{Stealth[length=3pt]}] (l3.east) -- (t3.west);
+\draw[riskred!40, dashed, -{Stealth[length=3pt]}] (l4.east) -- (t4.west);
+
+% Title
+\node[font=\Large\bfseries, text=alchedark] at (0, 7.0) {Agentic AI Security Attack Surface};
+
+% Left brace with label
+\draw[decorate, decoration={brace, amplitude=8pt, mirror}, thick, alcheblue!60]
+    (-6.3, -0.65) -- (-6.3, 6.05)
+    node[midway, left=10pt, font=\small\bfseries, text=alcheblue, align=center] {Increasing\\attack\\surface};
+
+\end{tikzpicture}

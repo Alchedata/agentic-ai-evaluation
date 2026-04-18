@@ -1,0 +1,66 @@
+% Four-Pillar Model for Agent Assessment
+\begin{tikzpicture}[
+    pillar/.style={
+        rectangle, rounded corners=6pt, minimum width=3.2cm, minimum height=4.8cm,
+        draw=#1!70!black, fill=#1!10, line width=1pt, align=center,
+        inner sep=8pt
+    },
+    metric/.style={
+        rectangle, rounded corners=3pt, minimum width=2.6cm,
+        draw=#1!50!black, fill=#1!20, font=\scriptsize, align=center,
+        inner sep=3pt
+    },
+    plabel/.style={font=\bfseries\normalsize, text=#1!70!black},
+    arr/.style={-{Stealth[length=5pt]}, thick, color=gray!60}
+]
+
+% Pillars
+\node[pillar=pillar1] (p1) at (0,0) {};
+\node[pillar=pillar2] (p2) at (3.8,0) {};
+\node[pillar=pillar3] (p3) at (7.6,0) {};
+\node[pillar=pillar4] (p4) at (11.4,0) {};
+
+% Pillar labels
+\node[plabel=pillar1] at (0, 2.0) {Core Model};
+\node[plabel=pillar2] at (3.8, 2.0) {Memory};
+\node[plabel=pillar3] at (7.6, 2.0) {Tool Use};
+\node[plabel=pillar4] at (11.4, 2.0) {Environment};
+
+% Core Model metrics
+\node[metric=pillar1] at (0, 0.9) {Instruction\\Adherence};
+\node[metric=pillar1] at (0, -0.1) {Constraint\\Compliance};
+\node[metric=pillar1] at (0, -1.1) {Calibration\\Error};
+\node[metric=pillar1] at (0, -2.0) {Policy\\Alignment};
+
+% Memory metrics
+\node[metric=pillar2] at (3.8, 0.9) {Retrieval\\Precision};
+\node[metric=pillar2] at (3.8, -0.1) {Retrieval\\Recall};
+\node[metric=pillar2] at (3.8, -1.1) {Update\\Accuracy};
+\node[metric=pillar2] at (3.8, -2.0) {Context\\Retention};
+
+% Tool Use metrics
+\node[metric=pillar3] at (7.6, 0.9) {Tool Selection\\Accuracy};
+\node[metric=pillar3] at (7.6, -0.1) {Parameter\\Mapping};
+\node[metric=pillar3] at (7.6, -1.1) {Error\\Recovery};
+\node[metric=pillar3] at (7.6, -2.0) {Idempotency};
+
+% Environment metrics
+\node[metric=pillar4] at (11.4, 0.9) {Resource\\Constraints};
+\node[metric=pillar4] at (11.4, -0.1) {Authorization\\Recovery};
+\node[metric=pillar4] at (11.4, -1.1) {Env Change\\Adaptation};
+\node[metric=pillar4] at (11.4, -2.0) {Least-Privilege\\Compliance};
+
+% Top label
+\node[font=\Large\bfseries, text=alchedark] at (5.7, 3.2) {Agent Assessment Framework (AAF)};
+
+% Foundation bar
+\fill[alchedark!80, rounded corners=4pt] (-1.8,-3.0) rectangle (13.2,-2.6);
+\node[font=\small\bfseries, text=white] at (5.7, -2.8) {Deployment Readiness Assessment};
+
+% Arrows from pillars to foundation
+\draw[arr] (0, -2.4) -- (0, -2.6);
+\draw[arr] (3.8, -2.4) -- (3.8, -2.6);
+\draw[arr] (7.6, -2.4) -- (7.6, -2.6);
+\draw[arr] (11.4, -2.4) -- (11.4, -2.6);
+
+\end{tikzpicture}

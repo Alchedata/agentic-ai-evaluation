@@ -1,0 +1,33 @@
+% Measurement Imbalance in Agentic AI Evaluation
+\begin{tikzpicture}
+\begin{axis}[
+    xbar,
+    width=12cm, height=5.5cm,
+    bar width=14pt,
+    xlabel={Proportion of Evaluation Literature (\%)},
+    xlabel style={font=\small},
+    ytick={1,2,3,4},
+    yticklabels={Security, Economic, Human-Centered, Technical},
+    yticklabel style={font=\small},
+    xticklabel style={font=\small},
+    xmin=0, xmax=100,
+    nodes near coords,
+    nodes near coords style={font=\small\bfseries},
+    every axis plot/.append style={fill opacity=0.85},
+    grid=major,
+    grid style={gray!15},
+    title={\textbf{Measurement Imbalance in Agentic AI Evaluation}},
+    title style={font=\normalsize, text=alchedark},
+    enlarge y limits=0.25
+]
+
+\addplot[fill=pillar1!70, draw=pillar1!90] coordinates {
+    (83, 4) (30, 3) (30, 2) (12, 1)
+};
+
+\end{axis}
+
+% Annotation
+\node[font=\scriptsize, text=riskred, align=center] at (9, 0.5) {83\% technical vs.\ 12\% security\\= blind spots in production};
+
+\end{tikzpicture}

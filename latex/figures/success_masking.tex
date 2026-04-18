@@ -1,0 +1,75 @@
+                    % Success Masking Problem: Outcome vs Trajectory Evaluation
+\begin{tikzpicture}[
+    gstep/.style={circle, draw=alcheblue, fill=alcheblue!15, minimum size=0.7cm, font=\scriptsize, inner sep=1pt},
+    badstep/.style={circle, draw=riskred, fill=riskred!20, minimum size=0.7cm, font=\scriptsize, inner sep=1pt},
+    skipstep/.style={circle, draw=riskred!70, fill=riskred!10, minimum size=0.7cm, font=\scriptsize, inner sep=1pt, dashed},
+    result/.style={rectangle, rounded corners=4pt, draw=alcheblue!80, fill=safegreen!20, minimum width=1.8cm, minimum height=0.7cm, font=\small\bfseries, align=center},
+    badresult/.style={rectangle, rounded corners=4pt, draw=riskred!80, fill=riskred!10, minimum width=1.8cm, minimum height=0.7cm, font=\small\bfseries, align=center},
+    lbl/.style={font=\small\bfseries, text=alchedark},
+    ann/.style={font=\scriptsize, text=riskred, align=center},
+    arr/.style={-{Stealth[length=4pt]}, thick, gray!70},
+    badarr/.style={-{Stealth[length=4pt]}, thick, riskred!60, dashed}
+]
+
+% ── Left: Outcome-Only Evaluation ──
+\node[lbl] at (-3.5, 3.5) {Outcome-Only Evaluation};
+
+% Black box
+\fill[gray!15, rounded corners=6pt] (-5.8, 0.5) rectangle (-1.2, 2.8);
+\draw[gray!50, thick, rounded corners=6pt] (-5.8, 0.5) rectangle (-1.2, 2.8);
+\node[font=\small, text=gray!60] at (-3.5, 1.65) {\textit{Black Box}};
+
+% Input
+\node[gstep] (i1) at (-6.5, 1.65) {In};
+\draw[arr] (i1) -- (-5.8, 1.65);
+
+% Output
+\node[result] (o1) at (0, 1.65) {Success};
+\draw[arr] (-1.2, 1.65) -- (o1);
+
+% Checkmark
+\node[font=\Large, text=safegreen] at (0, 0.6) {\checkmark};
+
+% Label
+\node[font=\scriptsize, text=gray!70, align=center] at (-3.5, -0.2) {``Agent passed\\the benchmark''};
+
+% ── Right: Trajectory Evaluation ──
+\node[lbl] at (5.5, 3.5) {Trajectory Evaluation};
+
+% Steps
+\node[gstep] (s1) at (1.5, 2.2) {1};
+\node[gstep] (s2) at (2.8, 2.2) {2};
+\node[badstep] (s3) at (4.1, 2.2) {3};
+\node[skipstep] (s4) at (5.4, 2.2) {4};
+\node[gstep] (s5) at (6.7, 2.2) {5};
+\node[badstep] (s6) at (8.0, 2.2) {6};
+\node[gstep] (s7) at (9.3, 2.2) {7};
+
+% Arrows between steps
+\draw[arr] (s1) -- (s2);
+\draw[arr] (s2) -- (s3);
+\draw[badarr] (s3) -- (s4);
+\draw[badarr] (s4) -- (s5);
+\draw[arr] (s5) -- (s6);
+\draw[badarr] (s6) -- (s7);
+
+% Annotations
+\node[ann, below=3pt of s3] {Policy\\violation};
+\node[ann, below=3pt of s4] {Skipped\\diagnostic};
+\node[ann, below=3pt of s6] {Auth\\bypass};
+
+% Result
+\node[result] (o2) at (11, 2.2) {Success};
+\draw[arr] (s7) -- (o2);
+
+% But with warning
+\node[font=\Large, text=riskred] at (11, 1.0) {\texttimes};
+\node[font=\scriptsize\bfseries, text=riskred, align=center] at (11, 0.3) {Latent risk\\detected!};
+
+% Label
+\node[font=\scriptsize, text=gray!70, align=center] at (5.5, -0.2) {``Agent passed, but the path\\was broken''};
+
+% Divider
+\draw[gray!40, dashed, thick] (-0.7, -0.6) -- (-0.7, 3.8);
+
+\end{tikzpicture}

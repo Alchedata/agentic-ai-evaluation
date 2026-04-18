@@ -1,0 +1,89 @@
+% ══════════════════════════════════════════════════════════════════════
+% SECTION IV
+% ══════════════════════════════════════════════════════════════════════
+\section{The Evaluator Paradox: Reliability in Automated Judgment}
+\label{sec:evaluator}
+
+\subsection{LLM-as-a-Judge vs.\ Agent-as-a-Judge: Hierarchical vs.\ Monolithic Assessment}
+
+As tasks become more open-ended and nuanced, Large Language Models are increasingly used as evaluators to assess qualities like helpfulness, coherence, and faithfulness that resist mechanical checking. This is a practical necessity---human labeling at evaluation scale is not viable for most organizations.
+
+This is typically implemented in two paradigms:
+
+\keyword{LLM-as-a-Judge} employs a monolithic model to perform a single-pass qualitative assessment of execution logs and outputs using structured prompts and rubrics~\citep{agent_as_judge_survey}. It is fast, scalable, and relatively inexpensive. However, it is limited by the judge's ability to process complex, multi-step execution traces in a single inference pass, and it is susceptible to systematic biases.
+
+\keyword{Agent-as-a-Judge} employs a specialized ``auditor agent'' or decentralized team of agents that evaluates a subject agent using tool calls, code execution, and environment interaction rather than linguistic plausibility alone~\citep{agent_as_judge_icml}. The auditor agent can decompose complex evaluation goals into sub-tasks, verify claims through actual execution, and provide fine-grained feedback on specific steps in the execution trace.
+
+Research published in 2026 demonstrates that Agent-as-a-Judge aligns with human experts approximately \textbf{90\% of the time}, significantly outperforming the \textbf{70\% alignment rate} of traditional LLM-as-a-Judge methods. The gap is explained by the auditor agent's ability to decompose complex evaluation goals into sub-tasks and verify claims through actual execution. Figure~\ref{fig:judge_comparison} contrasts the two paradigms.
+
+\begin{figure}[htbp]
+\centering
+\input{figures/judge_comparison}
+\caption{LLM-as-a-Judge vs.\ Agent-as-a-Judge comparison. Agent-as-a-Judge provides deeper process evaluation through multi-turn analysis and trajectory inspection, achieving significantly higher human alignment.}
+\label{fig:judge_comparison}
+\end{figure}
+
+The key differences are summarized in Table~\ref{tab:judge_comparison}.
+
+\begin{table}[htbp]
+\centering
+\caption{LLM-as-a-Judge vs.\ Agent-as-a-Judge across key dimensions.}
+\label{tab:judge_comparison}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Feature} & \textbf{LLM-as-a-Judge} & \textbf{Agent-as-a-Judge} \\
+\midrule
+Evaluation Mode & Single-pass inference & Autonomous, hierarchical \\
+Verification Basis & Linguistic plausibility & Execution \& interaction \\
+Robustness & Prone to parametric biases & Decentralized deliberation \\
+Intermediate Feedback & Limited or absent & Rich step-level feedback \\
+Human Alignment & ${\sim}70\%$ & ${\sim}90\%$ \\
+Cost & Lower & Higher \\
+Latency & Faster & Slower \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The Agent-as-a-Judge paradigm addresses the cognitive overload faced by monolithic judges when assessing multi-step, complex tasks. By decomposing evaluation goals into sub-tasks and utilizing tools like code interpreters to verify the agent's actions, agentic judges can provide much finer-grained feedback and pinpoint specific flaws that might be obscured in a global score.
+
+For production-critical workflows, the question is not just ``what did the agent do?'' but ``can we trust the system that's checking what the agent did?''
+
+\subsection{Taxonomy of Judge Biases: Verbosity, Family, and Position Biases}
+
+LLM judges introduce their own failure modes, and these must be understood and mitigated for evaluation results to be trustworthy. Research from the Judge Reliability Harness (JRH) identifies several systematic biases~\citep{judge_reliability_harness}:
+
+\keyword{Verbosity Bias} --- Judges over-reward longer responses independent of quality. An agent that produces a verbose, meandering response may receive a higher score than one that produces a concise, accurate answer. This bias is particularly dangerous because it creates a perverse incentive: agents optimized against verbose judges will learn to pad their outputs, increasing token costs without improving quality.
+
+\keyword{Position Bias} --- Judges favor responses appearing earlier in a comparison. When evaluating multiple agent outputs side by side, the judge systematically prefers the first option presented, regardless of actual quality. This bias undermines the validity of comparative evaluations and leaderboard-style rankings.
+
+\keyword{Family Bias} --- Judges favor outputs from the same model provider. A GPT-based judge may systematically prefer GPT-generated outputs, and a Claude-based judge may prefer Claude-generated outputs. This creates a conflict of interest when the judge and the agent share the same model family.
+
+\keyword{Format Sensitivity} --- Formatting changes produce larger reliability drops than semantic ones. A judge may assign different scores to substantively identical outputs that differ only in formatting (bullet points vs.\ paragraphs, markdown vs.\ plain text). This means that evaluation results can be manipulated by formatting choices rather than quality improvements.
+
+These biases are not theoretical. They have been empirically demonstrated across multiple judge models and evaluation contexts. Any organization using LLM-based evaluation must account for them.
+
+\subsection{The Judge Reliability Harness: Perturbation-Based Stress Testing}
+
+The Judge Reliability Harness (JRH) is an open-source library developed to stress-test LLM evaluators~\citep{judge_reliability_harness}. It generates reliability tests using various perturbations to quantify how much a judge's scores should actually be trusted.
+
+JRH employs four perturbation strategies:
+
+\keyword{Label Flip} --- Rewriting responses to clearly violate rubrics to test discriminative accuracy. If a judge cannot reliably identify a response that has been deliberately modified to violate the evaluation criteria, the judge's discriminative ability is questionable.
+
+\keyword{Format Invariance} --- Altering visual layouts and formatting to ensure the judge is not distracted by non-semantic changes. A reliable judge should assign the same score to substantively identical content regardless of formatting.
+
+\keyword{Semantic Paraphrase} --- Changing wording while maintaining meaning to test scoring stability. If a judge assigns significantly different scores to paraphrased versions of the same content, the judge is evaluating surface form rather than substance.
+
+\keyword{Verbosity Bias Tests} --- Testing whether judges over-reward longer answers when quality is held constant. By presenting the same content at different levels of verbosity, JRH can quantify the magnitude of verbosity bias.
+
+Experiments with JRH indicate that formatting perturbations often produce larger reliability drops than semantic ones, and that judge performance in free-response tasks does not necessarily generalize to agentic settings. This is a critical finding: a judge that performs reliably on traditional NLP benchmarks may be unreliable when evaluating agentic behavior.
+
+\textbf{Recommendations for practitioners:}
+
+\begin{enumerate}[nosep]
+    \item \textbf{Stress-test your judges before trusting them.} Run JRH-style perturbations against any LLM judge before relying on its outputs for production decisions.
+    \item \textbf{Use multiple judges for high-stakes evaluations.} Employ 2--3 different judge models and require consensus or majority agreement.
+    \item \textbf{Calibrate against human judgments.} Before deploying LLM-as-judge at scale, calibrate it against human evaluations on at least 100 examples.
+    \item \textbf{Separate evaluation from generation.} Never use the same model to both generate agent behavior and evaluate it.
+    \item \textbf{Implement judge auditing.} Regularly sample and review judge evaluations to detect drift, bias, or degradation.
+\end{enumerate}

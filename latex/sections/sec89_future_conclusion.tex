@@ -1,0 +1,113 @@
+% ══════════════════════════════════════════════════════════════════════
+% SECTION VIII
+% ══════════════════════════════════════════════════════════════════════
+\section{Future Directions: Closing the Measurement Imbalance}
+\label{sec:future}
+
+\subsection{Integrating Human-Centered and Economic Metrics}
+
+A systematic review of papers from 2023 to 2025 reveals a \keyword{measurement imbalance}: 83\% of evaluations focus on technical performance, while only 30\% consider human-centered factors and 30\% consider economic impacts~\citep{measurement_imbalance}. This gap creates a fundamental disconnect between benchmark success and deployment value, often leading to rollout reversals and failed investments. Figure~\ref{fig:measurement_imbalance} visualizes this imbalance.
+
+\begin{figure}[htbp]
+\centering
+\input{figures/measurement_imbalance}
+\caption{The measurement imbalance in agentic AI evaluation. Technical metrics dominate the literature, while security and human-centered considerations remain critically underrepresented.}
+\label{fig:measurement_imbalance}
+\end{figure}
+
+The measurement imbalance is not merely an academic concern. It has direct business consequences:
+
+\begin{itemize}[nosep]
+    \item Organizations invest in agents that perform well on technical benchmarks but fail to deliver value to users.
+    \item Procurement decisions are made based on accuracy metrics that do not account for cost, latency, or reliability.
+    \item Agents are deployed that are technically capable but operationally fragile, leading to production incidents and erosion of trust.
+\end{itemize}
+
+Closing this imbalance requires three shifts:
+
+\begin{enumerate}[nosep]
+    \item \textbf{Mandatory economic reporting}: Every benchmark result should include CNA or an equivalent cost-normalized metric. Accuracy without cost context is misleading.
+    \item \textbf{Human-centered evaluation integration}: User satisfaction, task completion from the user's perspective, and the quality of the human-agent interaction should be standard evaluation dimensions, not afterthoughts.
+    \item \textbf{Multi-dimensional deployment criteria}: The CLEAR framework (or equivalent) should be adopted as a standard for deployment readiness, requiring assessment across all five dimensions.
+\end{enumerate}
+
+\subsection{The Role of Standardized Web Conduct and Multi-Agent Interaction Protocols}
+
+As agentic AI matures, the industry is moving toward a more nuanced understanding of ``agenticness'' as a spectrum rather than a binary property~\citep{ai_agent_index}. Systems are increasingly being designed with a \keyword{flexible thinking budget}---skipping complex orchestrators for reactive tasks and allocating more tokens and time for deep reasoning tasks like supply chain planning.
+
+This evolution creates new evaluation challenges:
+
+\begin{itemize}[nosep]
+    \item \textbf{Multi-agent evaluation}: When multiple agents interact, emergent behaviors can arise that are not predictable from evaluating each agent in isolation. Metrics for coordination, communication efficiency, and collective decision-making are needed.
+    \item \textbf{Standardized interaction protocols}: As agents interact with web services, APIs, and each other, standardized protocols for agent conduct are needed---analogous to robots.txt for web crawlers, but for autonomous AI agents.
+    \item \textbf{Cross-platform benchmarking}: Current benchmarks are fragmented and non-comparable. Industry-standard evaluation protocols are needed to enable meaningful comparison across agents and platforms.
+\end{itemize}
+
+The development of these standards will require collaboration across industry, academia, and regulatory bodies. Organizations that contribute to standardization efforts will have a voice in shaping the evaluation landscape.
+
+\subsection{Toward Verifiable and Trustworthy Autonomous Agents}
+
+The 2026 target for enterprise-grade agentic systems is \textbf{95\%+ task accuracy} in multi-turn reasoning workflows while maintaining economic sustainability~\citep{mckinsey_agentic_ai}. Reaching that target requires closing the measurement imbalance---integrating technical performance, human-centered assessment, and economic efficiency into a single evaluation standard.
+
+The methodological building blocks now exist:
+
+\begin{itemize}[nosep]
+    \item \textbf{Trajectory metrics} that evaluate the complete execution path, not just the final output.
+    \item \textbf{Agent-as-a-Judge} paradigms that provide scalable, human-aligned evaluation.
+    \item \textbf{CNA} and the CLEAR framework that integrate economic and operational dimensions.
+    \item \textbf{Simulation-based pre-deployment testing} that surfaces issues before production.
+    \item \textbf{The Four-Pillar Model} that decomposes agent assessment into testable components.
+    \item \textbf{The HAAF scenario manifold} that weights evaluation by deployment risk.
+\end{itemize}
+
+The challenge is adoption. Most teams are still optimizing for the metric they can measure most easily, not the metric that matters most for production.
+
+
+% ══════════════════════════════════════════════════════════════════════
+% SECTION IX
+% ══════════════════════════════════════════════════════════════════════
+\section{Conclusion and Strategic Recommendations}
+\label{sec:conclusion}
+
+The transition to agentic AI requires a radical departure from the evaluation methodologies of the previous generation. The current research landscape emphasizes that task completion is a necessary but insufficient condition for production readiness. Organizations and researchers must prioritize trajectory-level observability to understand why agents succeed or fail, particularly in multi-turn interactions where compounding errors are common.
+
+The adoption of Agent-as-a-Judge paradigms offers a scalable path to achieving human-level evaluation quality while significantly reducing costs. However, this must be balanced with rigorous stress-testing of those judges using libraries like the Judge Reliability Harness to ensure they are not merely reflecting their own internal biases.
+
+The economic dimension of agency---specifically the trade-off between accuracy and token consumption---must become a central focus of both academic research and enterprise procurement to prevent the explosion of inference bills and the deployment of operationally fragile systems.
+
+\subsection{Strategic Recommendations}
+
+\subsubsection{For Research Teams}
+
+\begin{enumerate}[nosep]
+    \item \textbf{Report CNA alongside accuracy.} Any benchmark result reported without cost normalization is incomplete and potentially misleading.
+    \item \textbf{Adopt trajectory-level evaluation.} Move beyond outcome-only metrics to assess the complete execution path.
+    \item \textbf{Stress-test your judges.} Implement JRH-style perturbation testing for any LLM-based evaluation pipeline.
+    \item \textbf{Close the measurement imbalance.} Integrate human-centered and economic metrics into evaluation frameworks alongside technical performance.
+\end{enumerate}
+
+\subsubsection{For Engineering Teams}
+
+\begin{enumerate}[nosep]
+    \item \textbf{Instrument your traces before you instrument your benchmarks.} Trajectory observability is a prerequisite for meaningful evaluation. If you cannot replay the reasoning path for a failed task, you cannot diagnose the failure.
+    \item \textbf{Use multi-turn simulation to find issues before users do.} Tools like ArkSim can surface context loss, idempotency failures, and unexpected conversation paths before they appear in production logs.
+    \item \textbf{Apply the four pillars selectively by risk.} Not every workflow requires evaluation across all four pillars at equal depth. Triage by consequence: high-stakes workflows warrant full trajectory evaluation; lower-stakes workflows can tolerate lighter-weight assessment.
+    \item \textbf{Implement the CLEAR framework for deployment governance.} No agent should be promoted to production without assessment across all five CLEAR dimensions.
+\end{enumerate}
+
+\subsubsection{For Leadership and Procurement}
+
+\begin{enumerate}[nosep]
+    \item \textbf{Require multi-dimensional evaluation in vendor assessments.} Accuracy-only benchmarks are insufficient for procurement decisions. Demand CNA, CLEAR assessments, and trajectory-level evaluation results.
+    \item \textbf{Budget for evaluation infrastructure.} The cost of inadequate evaluation---production incidents, compliance violations, eroded trust---far exceeds the cost of building proper evaluation infrastructure.
+    \item \textbf{Invest in organizational learning.} Evaluation data should inform agent design, deployment decisions, and risk calibration across the organization.
+\end{enumerate}
+
+\vspace{1cm}
+\noindent By adopting a multi-dimensional approach that spans technical, human-centered, and economic factors, the industry can bridge the gap between impressive laboratory results and reliable, production-grade autonomous infrastructure.
+
+\vspace{2cm}
+\begin{center}
+\rule{0.3\textwidth}{0.4pt}\\[6pt]
+\textit{\small \textcopyright\ 2026 Alchedata. All rights reserved.}
+\end{center}

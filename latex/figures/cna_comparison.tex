@@ -1,0 +1,42 @@
+% Cost-Normalized Accuracy Comparison Across Architectures
+\begin{tikzpicture}
+\begin{axis}[
+    ybar,
+    width=14cm, height=7cm,
+    bar width=12pt,
+    ylabel={Score (\%)},
+    ylabel style={font=\small},
+    symbolic x coords={ReAct, Reflexion, Domain-Tuned, Plan-Execute},
+    xtick=data,
+    xticklabel style={font=\small},
+    yticklabel style={font=\small},
+    ymin=0, ymax=100,
+    legend style={at={(0.5,-0.18)}, anchor=north, legend columns=3, font=\small},
+    enlarge x limits=0.2,
+    nodes near coords,
+    nodes near coords style={font=\tiny},
+    every axis plot/.append style={fill opacity=0.85},
+    grid=major,
+    grid style={gray!20},
+    title={\textbf{Architecture Comparison: Efficacy, Cost, and CNA}},
+    title style={font=\normalsize, text=alchedark}
+]
+
+% Efficacy (task success rate)
+\addplot[fill=pillar1!70, draw=pillar1!90] coordinates {
+    (ReAct, 62) (Reflexion, 71) (Domain-Tuned, 78) (Plan-Execute, 74)
+};
+
+% Cost efficiency (inverse of relative cost, normalized)
+\addplot[fill=pillar3!70, draw=pillar3!90] coordinates {
+    (ReAct, 45) (Reflexion, 38) (Domain-Tuned, 65) (Plan-Execute, 52)
+};
+
+% CNA (cost-normalized accuracy)
+\addplot[fill=pillar2!70, draw=pillar2!90] coordinates {
+    (ReAct, 28) (Reflexion, 27) (Domain-Tuned, 51) (Plan-Execute, 38)
+};
+
+\legend{Efficacy, Cost Efficiency, CNA}
+\end{axis}
+\end{tikzpicture}
