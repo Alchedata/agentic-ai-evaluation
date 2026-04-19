@@ -16,12 +16,12 @@ This is typically implemented in two paradigms:
 
 Research published in 2026 demonstrates that Agent-as-a-Judge aligns with human experts approximately \textbf{90\% of the time}, significantly outperforming the \textbf{70\% alignment rate} of traditional LLM-as-a-Judge methods. The gap is explained by the auditor agent's ability to decompose complex evaluation goals into sub-tasks and verify claims through actual execution. Figure~\ref{fig:judge_comparison} contrasts the two paradigms.
 
-\begin{figure}[htbp]
+\begin{figure*}[htbp]
 \centering
 \input{figures/judge_comparison}
 \caption{LLM-as-a-Judge vs.\ Agent-as-a-Judge comparison. Agent-as-a-Judge provides deeper process evaluation through multi-turn analysis and trajectory inspection, achieving significantly higher human alignment.}
 \label{fig:judge_comparison}
-\end{figure}
+\end{figure*}
 
 The key differences are summarized in Table~\ref{tab:judge_comparison}.
 
@@ -29,6 +29,7 @@ The key differences are summarized in Table~\ref{tab:judge_comparison}.
 \centering
 \caption{LLM-as-a-Judge vs.\ Agent-as-a-Judge across key dimensions.}
 \label{tab:judge_comparison}
+\resizebox{0.96\columnwidth}{!}{%
 \begin{tabular}{@{}lll@{}}
 \toprule
 \textbf{Feature} & \textbf{LLM-as-a-Judge} & \textbf{Agent-as-a-Judge} \\
@@ -42,6 +43,7 @@ Cost & Lower & Higher \\
 Latency & Faster & Slower \\
 \bottomrule
 \end{tabular}
+}
 \end{table}
 
 The Agent-as-a-Judge paradigm addresses the cognitive overload faced by monolithic judges when assessing multi-step, complex tasks. By decomposing evaluation goals into sub-tasks and utilizing tools like code interpreters to verify the agent's actions, agentic judges can provide much finer-grained feedback and pinpoint specific flaws that might be obscured in a global score.
@@ -80,7 +82,7 @@ Experiments with JRH indicate that formatting perturbations often produce larger
 
 \textbf{Recommendations for practitioners:}
 
-\begin{enumerate}[nosep]
+\begin{enumerate}
     \item \textbf{Stress-test your judges before trusting them.} Run JRH-style perturbations against any LLM judge before relying on its outputs for production decisions.
     \item \textbf{Use multiple judges for high-stakes evaluations.} Employ 2--3 different judge models and require consensus or majority agreement.
     \item \textbf{Calibrate against human judgments.} Before deploying LLM-as-judge at scale, calibrate it against human evaluations on at least 100 examples.

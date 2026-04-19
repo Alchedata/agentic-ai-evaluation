@@ -8,7 +8,7 @@
 
 For organizations to move beyond pilots, they require a holistic evaluation across what is known as the \keyword{CLEAR dimensions}~\citep{beyond_accuracy}:
 
-\begin{description}[style=nextline,leftmargin=1em]
+\begin{description}
     \item[C --- Cost per task] (absolute and normalized): Not just the raw cost of API calls and compute, but the cost normalized by task complexity and success rate. CNA provides the standard metric.
     \item[L --- Latency] (time to first token, end-to-end response): Not just average latency, but the full distribution---including P95 and P99 latency, which determine whether the agent meets SLA requirements. Time-to-first-token (TTFT) and total response time both impact real-time usability.
     \item[E --- Efficacy and accuracy] (trajectory-level, not outcome-only): Moving beyond binary success metrics to evaluate the complete execution path. This includes the Agent GPA decomposition (Goal-Plan-Action) and trajectory coherence metrics.
@@ -20,7 +20,7 @@ Figure~\ref{fig:clear_radar} visualizes the CLEAR framework as a radar chart, co
 
 \begin{figure}[htbp]
 \centering
-\input{figures/clear_radar}
+\resizebox{0.84\columnwidth}{!}{\input{figures/clear_radar}}
 \caption{The CLEAR framework radar chart, comparing an ideal agent profile (high scores across all dimensions) against a typical production agent (with notable gaps in Adherence and Resilience).}
 \label{fig:clear_radar}
 \end{figure}
@@ -33,7 +33,7 @@ A significant challenge in agent development is proving readiness for production
 
 ArkSim, an open-source framework designed for LangChain and LangGraph agents, integrates evaluations into the developer workflow via CI/CD platforms. This allows for the detection of regressions and failures early in the lifecycle. Multi-turn simulation is particularly effective for testing:
 
-\begin{itemize}[nosep]
+\begin{itemize}
     \item \textbf{Context loss during long interactions}: Whether the agent maintains awareness of constraints and information established in early turns.
     \item \textbf{Unexpected conversation paths}: Scenarios that emerge only after several turns of interaction and would not be captured by single-turn evaluation.
     \item \textbf{Idempotency}: The ability of an agent to handle retries safely without causing unintended side effects, such as duplicating a purchase or a data entry.
@@ -48,7 +48,7 @@ Human-in-the-loop (HITL) processes remain essential to audit evaluation results 
 
 The practical approach is a \keyword{layered evaluation strategy}:
 
-\begin{enumerate}[nosep]
+\begin{enumerate}
     \item \textbf{Automated evaluation} for structured, verifiable outputs: Format compliance, factual accuracy against known sources, constraint violation detection.
     \item \textbf{LLM-as-a-Judge} for scalable quality assessment: Reasoning coherence, output quality, decision appropriateness---calibrated against human judgments.
     \item \textbf{Agent-as-a-Judge} for complex, multi-step evaluations: Where fine-grained feedback on specific reasoning steps and tool interactions is required.

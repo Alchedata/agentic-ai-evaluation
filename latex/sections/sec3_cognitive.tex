@@ -14,7 +14,7 @@ This approach is significant because it directly tests the kind of reasoning tha
 
 Findings from RepoReason have identified critical performance ceilings for current frontier models that have direct implications for deployment:
 
-\begin{description}[style=nextline,leftmargin=1em]
+\begin{description}
     \item[The Cliff Effect] Reading comprehension accuracy drops sharply when the volume of code exceeds approximately 600 lines. This is not a gradual decline but a precipitous drop---agents that perform well on 500-line codebases may fail catastrophically on 700-line ones.
     \item[The Aggregation Deficit] Accuracy declines as ``integration width'' increases---meaning the number of cross-file dependencies the agent must synthesize. This is precisely the condition that characterizes real production codebases, where changes in one module can affect behavior in seemingly unrelated components.
     \item[Consistency Decay] Models show a significant loss of consistency beyond 100 execution steps in a single trajectory. An agent that reasons correctly in steps 1--80 may begin making errors in steps 80--120, not because the later steps are harder, but because the accumulated context degrades the agent's reasoning coherence.
@@ -28,14 +28,14 @@ The Cliff Effect deserves particular attention because it represents a qualitati
 
 This has profound implications for evaluation:
 
-\begin{enumerate}[nosep]
+\begin{enumerate}
     \item \textbf{Interpolation is dangerous.} If an agent performs well on 400-line codebases and poorly on 800-line ones, it is not safe to assume it performs acceptably on 600-line codebases. The cliff may occur at any point.
     \item \textbf{Benchmark results can be misleading.} A benchmark that uses 500-line codebases will produce optimistic results that do not generalize to the 700+ line codebases common in production.
     \item \textbf{Safety margins must be explicit.} Organizations must define maximum complexity thresholds for their agents and enforce them in production, rather than discovering the cliff through failures.
 \end{enumerate}
 
 The simulation depth limit---the point at which an agent's reasoning coherence degrades beyond recovery---is similarly consequential. For agents operating in multi-turn workflows, the 100-step consistency decay means that long-running tasks are inherently less reliable than short ones. This must be accounted for in both evaluation and deployment design:
-\begin{itemize}[nosep]
+\begin{itemize}
     \item Break long workflows into shorter segments with verification checkpoints.
     \item Implement intermediate validation steps that can catch reasoning drift before it compounds.
     \item Monitor trajectory coherence in real-time and escalate to human oversight when degradation is detected.
@@ -45,7 +45,7 @@ The simulation depth limit---the point at which an agent's reasoning coherence d
 
 Traditional evaluation treats task completion as a monolithic outcome. But agentic behavior can be decomposed into three distinct cognitive phases, each of which can fail independently~\citep{agent_gpa}:
 
-\begin{enumerate}[nosep]
+\begin{enumerate}
     \item \textbf{Goal comprehension}: Does the agent correctly understand what it is being asked to do?
     \item \textbf{Plan formulation}: Does the agent devise a sensible strategy for achieving the goal?
     \item \textbf{Action execution}: Does the agent correctly implement the plan through tool calls and environmental interactions?
@@ -53,12 +53,12 @@ Traditional evaluation treats task completion as a monolithic outcome. But agent
 
 The \keyword{Agent GPA} (Goal-Plan-Action) framework evaluates each phase independently, producing a profile rather than a single score. Figure~\ref{fig:agent_gpa} illustrates this decomposition.
 
-\begin{figure}[htbp]
+\begin{figure*}[htbp]
 \centering
 \input{figures/agent_gpa}
 \caption{The Agent GPA framework decomposes agentic behavior into Goal comprehension, Plan formulation, and Action execution, with failure modes identified at each phase and a composite GPA score reflecting overall alignment.}
 \label{fig:agent_gpa}
-\end{figure}
+\end{figure*}
 
 This decomposition is critical because the remediation for each type of failure is fundamentally different, as shown in Table~\ref{tab:gpa_failures}.
 
@@ -66,6 +66,7 @@ This decomposition is critical because the remediation for each type of failure 
 \centering
 \caption{GPA failure phases, symptoms, root causes, and remediations.}
 \label{tab:gpa_failures}
+\resizebox{0.96\columnwidth}{!}{%
 \begin{tabular}{@{}llll@{}}
 \toprule
 \textbf{Phase} & \textbf{Symptom} & \textbf{Root Cause} & \textbf{Remediation} \\
@@ -75,6 +76,7 @@ Plan & Suboptimal path & Insufficient reasoning & Reflection loops, verification
 Action & Execution errors & Tool use failures & Better descriptions, validation \\
 \bottomrule
 \end{tabular}
+}
 \end{table}
 
 An agent with a high Goal score but low Action score understands what to do but cannot execute it. An agent with a high Action score but low Goal score can execute flawlessly---but on the wrong task. These are fundamentally different problems requiring fundamentally different solutions.

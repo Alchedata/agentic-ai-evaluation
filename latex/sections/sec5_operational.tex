@@ -12,7 +12,7 @@ Research into the \keyword{Unreliability Tax} identifies the additional compute,
 
 The Unreliability Tax manifests in several ways:
 
-\begin{itemize}[nosep]
+\begin{itemize}
     \item \textbf{Retry costs}: When agents fail, they must retry, consuming additional tokens and API calls. In complex workflows, a single failure can trigger a cascade of retries across multiple steps.
     \item \textbf{Guardrail costs}: Implementing safety checks, validation steps, and human-in-the-loop checkpoints adds latency and token consumption to every workflow.
     \item \textbf{Observability costs}: Capturing and storing execution traces for evaluation and debugging requires infrastructure and storage.
@@ -35,6 +35,7 @@ Evaluation of leading agent architectures on enterprise tasks demonstrates a str
 \centering
 \caption{Architecture comparison: efficacy, cost, and CNA.}
 \label{tab:cna_results}
+\resizebox{0.96\columnwidth}{!}{%
 \begin{tabular}{@{}lccc@{}}
 \toprule
 \textbf{Architecture} & \textbf{Efficacy (\%)} & \textbf{Cost (USD/Task)} & \textbf{CNA} \\
@@ -45,14 +46,15 @@ Domain-Tuned & 81.5 & 0.31 & 260.4 \\
 Plan-Execute & 71.9 & 1.05 & 68.5 \\
 \bottomrule
 \end{tabular}
+}
 \end{table}
 
-\begin{figure}[htbp]
+\begin{figure*}[htbp]
 \centering
 \input{figures/cna_comparison}
 \caption{Architecture comparison across efficacy, cost efficiency, and Cost-Normalized Accuracy (CNA). The Domain-Tuned architecture achieves the highest CNA by combining strong efficacy with low cost, while Reflexion's high efficacy is undermined by excessive cost.}
 \label{fig:cna_comparison}
-\end{figure}
+\end{figure*}
 
 The Reflexion architecture---often cited for its high accuracy---is \textbf{4.7$\times$ more expensive} than the domain-tuned alternative while delivering lower accuracy. The Domain-Tuned agent achieves the highest accuracy at the lowest cost, producing a CNA more than 15$\times$ higher than Reflexion.
 
@@ -64,14 +66,14 @@ This finding highlights what researchers call a \keyword{distorted research land
 
 As agentic systems gain the ability to take autonomous actions, the security implications become critical~\citep{securing_ai_agents}. The attack surface of agentic environments maps across four layers, as illustrated in Figure~\ref{fig:security_layers}.
 
-\begin{figure}[htbp]
+\begin{figure*}[htbp]
 \centering
 \input{figures/security_layers}
 \caption{The four-layer security attack surface for agentic AI systems, from runtime infrastructure to endpoint users, with representative threat vectors at each layer.}
 \label{fig:security_layers}
-\end{figure}
+\end{figure*}
 
-\begin{enumerate}[nosep]
+\begin{enumerate}
     \item \textbf{The Endpoint Layer} (e.g., coding agents): Compromise of the agent's execution environment, including local file systems, development environments, and developer machines.
     \item \textbf{The API/MCP Gateway Layer} (tool exchanges): Manipulation of the tool interfaces that agents use to interact with external systems. A compromised API can feed the agent malicious data, causing it to take harmful actions.
     \item \textbf{The SaaS Platform Layer}: Exploitation of the SaaS applications that agents interact with---CRM systems, communication platforms, cloud services---through the agent's authorized access.
@@ -80,7 +82,7 @@ As agentic systems gain the ability to take autonomous actions, the security imp
 
 CISOs are encouraged to implement a three-stage security framework:
 
-\begin{itemize}[nosep]
+\begin{itemize}
     \item \textbf{Visibility}: Knowing what agents you have, what tools they can access, and what actions they are taking. You cannot secure what you cannot see.
     \item \textbf{Configuration}: Reducing the blast radius by implementing least-privilege access, tool restrictions, and action boundaries. Agents should have the minimum permissions necessary for their tasks.
     \item \textbf{Runtime Protection}: Monitoring agent behavior in real-time for anomalous actions, policy violations, and indicators of compromise.

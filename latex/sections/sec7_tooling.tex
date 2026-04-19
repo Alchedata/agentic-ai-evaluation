@@ -16,7 +16,7 @@ ArkSim is an open-source framework designed specifically for multi-turn conversa
 
 ArkSim addresses a critical gap in the evaluation landscape: the inability to test agents under realistic multi-turn conditions before deployment. It generates synthetic user personas that interact with the agent across extended conversations, surfacing context loss, idempotency failures, and unexpected conversational paths that only appear after several turns. Key capabilities include:
 
-\begin{itemize}[nosep]
+\begin{itemize}
     \item \textbf{Synthetic user generation}: Configurable personas that simulate diverse user behaviors and edge cases.
     \item \textbf{Multi-turn conversation simulation}: Extended interaction sequences that test context retention and reasoning coherence over time.
     \item \textbf{CI/CD integration}: Automated regression testing that catches failures before they reach production.
@@ -63,6 +63,7 @@ The choice of evaluation tooling should be driven by the specific evaluation nee
 \centering
 \caption{Evaluation needs mapped to recommended tool categories.}
 \label{tab:tool_selection}
+\resizebox{0.96\columnwidth}{!}{%
 \begin{tabular}{@{}lll@{}}
 \toprule
 \textbf{Evaluation Need} & \textbf{Tool Category} & \textbf{Example Tools} \\
@@ -76,6 +77,7 @@ Trajectory observability & Tracing frameworks & LangSmith \\
 Judge reliability & Perturbation testing & JRH \\
 \bottomrule
 \end{tabular}
+}
 \end{table}
 
 No single tool addresses all evaluation needs. Effective evaluation infrastructure typically combines multiple tools---using simulation for pre-deployment testing, tracing for production observability, and judge reliability testing for evaluation quality assurance. The key principle is that evaluation tooling should be selected to match the evaluation methodology, not the other way around.
