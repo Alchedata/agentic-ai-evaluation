@@ -1,46 +1,98 @@
 # Agentic AI Evaluation
 
-A multi-dimensional framework for assessing the readiness, reliability, and economic viability of autonomous AI systems.
+Research and publication assets for Alchedata's work on evaluating agentic AI systems, with both Markdown and LaTeX versions of the white paper.
 
-## Project Overview
+## Overview
 
-This repository contains research, white papers, and technical documentation developed by **Alchedata** concerning the evaluation of Agentic AI. As the industry shifts from standard LLM chatbots to autonomous collaborators, traditional benchmarks focusing solely on completion success are no longer sufficient. Our framework proposes a holistic approach encompassing technical performance, human-centered factors, and economic impacts.
+This repository documents a multi-dimensional framework for assessing the readiness, reliability, safety, and economic viability of autonomous AI agents. The central argument is that outcome-only benchmarks are inadequate for agentic systems because they hide process failures, policy violations, and cost inefficiencies that only appear when you inspect the full execution trajectory.
 
-## Contents
+The repository currently includes:
 
-- [Agentic AI Evaluation.md](Agentic%20AI%20Evaluation.md): Preliminary research notes and bibliography on agentic evaluation.
-- [white-paper-agentic-ai-evaluation.md](white-paper-agentic-ai-evaluation.md): The full white paper "Evaluating the Autonomous Mind: A Multi-Dimensional Framework for Agentic AI Readiness" in Markdown format.
-- [blog-agentic-ai-evaluation.md](blog-agentic-ai-evaluation.md): A summarized blog version of the research findings.
-- [latex/](latex/): LaTeX source files for the high-fidelity professional version of the white paper.
-  - [latex/main.tex](latex/main.tex): The primary LaTeX document.
-  - [latex/figures/](latex/figures/): Directory for TikZ-generated diagrams and external assets.
+- research notes and source material
+- a long-form Markdown white paper
+- a blog-oriented summary
+- a production-style LaTeX manuscript with modular sections, bibliography, and technical figures
+- a generated PDF build of the paper
 
-## Key Frameworks & Concepts
+## Repository Layout
 
-### 1. The Four-Pillar Model
-Isolating failures across the architectural components of an agent:
-- **Core Model**: Instructions, policy alignment, and calibration.
-- **Memory**: Context retention, storage efficiency, and retrieval accuracy.
-- **Tools**: Selection accuracy, parameter mapping, and error recovery.
-- **Environment**: Resource handling, authorization, and adaptation.
+- [Agentic AI Evaluation.md](Agentic%20AI%20Evaluation.md): research notes, outline evolution, and source collection
+- [white-paper-agentic-ai-evaluation.md](white-paper-agentic-ai-evaluation.md): full white paper in Markdown
+- [blog-agentic-ai-evaluation.md](blog-agentic-ai-evaluation.md): shorter blog-style version of the core ideas
+- [latex/main.tex](latex/main.tex): main LaTeX entrypoint for the white paper
+- [latex/references.bib](latex/references.bib): bibliography used by the LaTeX manuscript
+- [latex/Makefile](latex/Makefile): local build targets for compiling and cleaning the LaTeX document
+- [latex/main.pdf](latex/main.pdf): generated PDF output
+- [latex/sections/sec3_cognitive.tex](latex/sections/sec3_cognitive.tex): cognitive diagnostics and reasoning trace analysis
+- [latex/sections/sec4_evaluator.tex](latex/sections/sec4_evaluator.tex): judge reliability and Agent-as-a-Judge discussion
+- [latex/sections/sec5_operational.tex](latex/sections/sec5_operational.tex): economics, safety, and latency
+- [latex/sections/sec6_enterprise.tex](latex/sections/sec6_enterprise.tex): enterprise readiness and CLEAR framework
+- [latex/sections/sec7_tooling.tex](latex/sections/sec7_tooling.tex): tooling landscape
+- [latex/sections/sec89_future_conclusion.tex](latex/sections/sec89_future_conclusion.tex): future directions, conclusion, and recommendations
+- [latex/figures/pillar_model.tex](latex/figures/pillar_model.tex): Four-Pillar Model diagram
+- [latex/figures/success_masking.tex](latex/figures/success_masking.tex): outcome-only vs trajectory evaluation figure
+- [latex/figures/agent_gpa.tex](latex/figures/agent_gpa.tex): Goal-Plan-Action framework figure
+- [latex/figures/judge_comparison.tex](latex/figures/judge_comparison.tex): LLM-as-a-Judge vs Agent-as-a-Judge comparison
+- [latex/figures/cna_comparison.tex](latex/figures/cna_comparison.tex): cost-normalized accuracy comparison
+- [latex/figures/clear_radar.tex](latex/figures/clear_radar.tex): CLEAR radar chart
+- [latex/figures/security_layers.tex](latex/figures/security_layers.tex): agentic AI security attack surface
+- [latex/figures/measurement_imbalance.tex](latex/figures/measurement_imbalance.tex): measurement imbalance chart
 
-### 2. The CLEAR Framework
-Five critical dimensions for enterprise deployment governance:
-- **C**ost per task (Cost-Normalized Accuracy - CNA)
-- **L**atency (TTFT and Distribution)
-- **E**fficacy and Accuracy (Trajectory-level metrics)
-- **A**dherence and Reliability (Policy compliance)
-- **R**esilience and Stability (Failure recovery)
+## Core Ideas
 
-### 3. Agent-as-a-Judge
-The transition from monolithic LLM evaluators to autonomous auditor agents that verify execution traces through deliberation and interaction, achieving ~90% human alignment.
+### Four-Pillar Model
 
-## How to Use This Resource
+The framework evaluates agents across four architectural pillars:
 
-1. **Strategic Planning**: Use the **CLEAR Framework** and **CNA metric** to guide procurement and deployment decisions.
-2. **Technical Implementation**: Reference the **Four-Pillar Model** to structure your internal evaluation pipelines and observability stacks.
-3. **Research**: Consult the [Works Cited](Agentic%20AI%20Evaluation.md#works-cited) for the latest foundational papers in agentic assessment.
+- Core Model: instruction following, alignment, calibration
+- Memory: retrieval accuracy, update quality, context retention
+- Tool Use: tool selection, parameter fidelity, sequencing, recovery
+- Environment: permissions, resource constraints, adaptation under change
+
+### CLEAR Framework
+
+The enterprise readiness model emphasizes five deployment dimensions:
+
+- Cost: absolute cost and Cost-Normalized Accuracy (CNA)
+- Latency: time to first token and end-to-end responsiveness
+- Efficacy: trajectory-aware task success and reasoning quality
+- Adherence: policy compliance, constraint handling, idempotency
+- Resilience: failure recovery and long-session stability
+
+### Agent-as-a-Judge
+
+The white paper argues that evaluating agents increasingly requires evaluator systems that can inspect trajectories, verify intermediate steps, and reason about process quality rather than judging only final outputs.
+
+## LaTeX Build
+
+The LaTeX document is organized as a modular paper with section files under [latex/sections](latex/sections) and TikZ/PGFPlots figures under [latex/figures](latex/figures).
+
+Build requirements:
+
+- `pdflatex`
+- `bibtex`
+- `latexmk`
+
+From the [latex](latex) directory:
+
+```bash
+make all
+```
+
+This compiles [latex/main.tex](latex/main.tex) and produces [latex/main.pdf](latex/main.pdf).
+
+Other supported targets:
+
+- `make clean`: remove LaTeX auxiliary files
+- `make view`: open the generated PDF
+
+## Suggested Use
+
+- Read the Markdown white paper for content review and editing.
+- Use the LaTeX manuscript for publication-quality export and layout.
+- Use the figures as standalone conceptual assets when presenting the framework.
+- Use the bibliography as the base reference set for further research and expansion.
 
 ---
 
-*© 2026 Alchedata. All rights reserved.*
+© 2026 Alchedata. All rights reserved.
