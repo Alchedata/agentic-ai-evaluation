@@ -77,3 +77,6 @@ latex/rendered_pages/*
 
 ## macOS specific:
 .DS_Store
+
+## Submission artifacts:
+arxiv-submission.tar.gz
