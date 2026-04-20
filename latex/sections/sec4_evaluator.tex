@@ -14,7 +14,7 @@ This is typically implemented in two paradigms:
 
 \keyword{Agent-as-a-Judge} employs a specialized ``auditor agent'' or decentralized team of agents that evaluates a subject agent using tool calls, code execution, and environment interaction rather than linguistic plausibility alone~\citep{agent_as_judge_icml}. The auditor agent can decompose complex evaluation goals into sub-tasks, verify claims through actual execution, and provide fine-grained feedback on specific steps in the execution trace.
 
-Research published in 2026 demonstrates that Agent-as-a-Judge aligns with human experts approximately \textbf{90\% of the time}, significantly outperforming the \textbf{70\% alignment rate} of traditional LLM-as-a-Judge methods. The gap is explained by the auditor agent's ability to decompose complex evaluation goals into sub-tasks and verify claims through actual execution. Figure~\ref{fig:judge_comparison} contrasts the two paradigms.
+The Agent-as-a-Judge paradigm was evaluated in the primary ICML paper introducing the approach~\citep{agent_as_judge_icml}, which reported alignment with human expert judgments of approximately \textbf{90\%} for Agent-as-a-Judge, compared to approximately \textbf{70\%} for traditional LLM-as-a-Judge on the benchmarks studied. These figures should be interpreted in the context of that evaluation's specific task distribution, judge configuration, and human-annotation setup---alignment rates can vary substantially across domains, rubric designs, and model versions. The directional finding---that decomposed, execution-grounded evaluation produces more reliable assessments than single-pass linguistic scoring---is supported by multiple independent studies~\citep{agent_as_judge_survey}, though precise numerical claims require verification against specific deployment conditions. Figure~\ref{fig:judge_comparison} contrasts the two paradigms.
 
 \begin{figure*}[htbp]
 \centering
@@ -23,7 +23,7 @@ Research published in 2026 demonstrates that Agent-as-a-Judge aligns with human 
 \label{fig:judge_comparison}
 \end{figure*}
 
-The key differences are summarized in Table~\ref{tab:judge_comparison}.
+The key differences are summarized in Table~\ref{tab:judge_comparison}. Values marked $^{*}$ are benchmark-specific figures from~\citet{agent_as_judge_icml} and should not be extrapolated as universal alignment rates.
 
 \begin{table}[htbp]
 \centering
@@ -38,7 +38,7 @@ Evaluation Mode & Single-pass inference & Autonomous, hierarchical \\
 Verification Basis & Linguistic plausibility & Execution \& interaction \\
 Robustness & Prone to parametric biases & Decentralized deliberation \\
 Intermediate Feedback & Limited or absent & Rich step-level feedback \\
-Human Alignment & ${\sim}70\%$ & ${\sim}90\%$ \\
+Human Alignment & ${\sim}70\%^{*}$ & ${\sim}90\%^{*}$ \\
 Cost & Lower & Higher \\
 Latency & Faster & Slower \\
 \bottomrule

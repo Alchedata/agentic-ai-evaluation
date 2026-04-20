@@ -1,5 +1,6 @@
 ## LaTeX gitignore
 # Source: https://github.com/github/gitignore/blob/main/TeX.gitignore
+latex/rendered_pages/*
 
 ## Core latex/pdflatex auxiliary files:
 *.aux

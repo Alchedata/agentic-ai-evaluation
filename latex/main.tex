@@ -69,7 +69,7 @@
 \maketitle
 
 \begin{abstract}
-The transition from static large language models to autonomous agentic systems between 2024 and 2026 has exposed a fundamental measurement crisis: evaluation methodologies inherited from traditional natural language processing fail to capture the non-deterministic, multi-step, tool-mediated nature of agentic behavior. Binary success metrics treat agents as black boxes, measuring where they ended up rather than how they got there, a phenomenon we term the \emph{success masking problem}. This paper synthesizes emerging research into a comprehensive evaluation framework built on four pillars: core model, memory, tool use, and environment. It introduces trajectory-level metrics that inspect the complete execution path, addresses the evaluator paradox through agent-as-a-judge paradigms and the Judge Reliability Harness, and proposes the CLEAR framework of cost, latency, efficacy, adherence, and resilience as an enterprise readiness standard. We present Cost-Normalized Accuracy as a reporting requirement and survey the open-source tooling ecosystem that makes these methods practical. The goal is to close the measurement imbalance that currently allows agents to pass benchmarks while failing in production.
+The transition from static large language models to autonomous agentic systems between 2024 and 2026 has exposed a fundamental measurement crisis: evaluation methodologies inherited from traditional natural language processing fail to capture the non-deterministic, multi-step, tool-mediated nature of agentic behavior. Binary success metrics treat agents as black boxes, measuring where they ended up rather than how they got there, a phenomenon described in recent literature as the \emph{success masking problem}. This paper presents a critical survey of emerging evaluation research and synthesizes the findings into an integrated conceptual framework. We organize the literature around four functional evaluation pillars (core model, memory, tool use, and environment), survey trajectory-level metrics that inspect complete execution paths, review agent-as-a-judge paradigms alongside reliability stress-testing via the Judge Reliability Harness, and examine the open-source and commercial tooling ecosystem. Drawing on this synthesis, we propose the CLEAR dimensions (cost, latency, efficacy, adherence, resilience) and Cost-Normalized Accuracy (CNA) as candidate standards for structured deployment assessment---acknowledging that neither has yet achieved formal community consensus. The paper identifies a persistent measurement imbalance that allows agents to pass benchmarks while failing in production, and offers recommendations for closing that gap. All quantitative claims are attributed to the primary studies that generated them and should be interpreted within the scope of those studies' evaluation setups.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -82,13 +82,27 @@ Agent-as-a-Judge, agentic AI, Cost-Normalized Accuracy, enterprise readiness, ev
 \section{Introduction: The Death of the Black-Box Success Metric}
 \label{sec:intro}
 
+\subsection{Scope and Contributions}
+
+This paper is a \textbf{critical survey} of evaluation frameworks for agentic AI systems, covering the research landscape from 2024 to early 2026. It does not introduce a new empirical benchmark or report original experimental results. Rather, it synthesizes findings across the literature, identifies structural gaps, and proposes a set of candidate conceptual frameworks to guide both researchers and practitioners. Specifically, our contributions are:
+
+\begin{enumerate}
+    \item A synthesis of the four-pillar evaluation model (core model, memory, tool use, environment), integrating findings across multiple foundational papers.
+    \item A critical review of automated judge paradigms---LLM-as-a-Judge and Agent-as-a-Judge---including identified biases and the perturbation-based stress-testing methodology of the Judge Reliability Harness.
+    \item A review and critical comparison of open-source and commercial evaluation tooling, including limitations and tradeoffs not typically discussed in vendor documentation.
+    \item Two proposed conceptual frameworks for community discussion: the \textbf{CLEAR} deployment-readiness dimensions and \textbf{Cost-Normalized Accuracy (CNA)}. These are synthesis proposals, not empirically validated standards. Their constituent components draw on prior work; the synthesis and framing are this paper's contribution.
+    \item Identification of the measurement imbalance in the literature and a concrete research agenda for closing it.
+\end{enumerate}
+
+Frameworks labeled CLEAR and CNA throughout this paper are presented as conceptual syntheses and proposals. Claims about specific quantitative thresholds (e.g., alignment percentages, code-complexity limits) are attributed to the primary studies that generated them and are explicitly scoped to those studies' evaluation conditions.
+
 \subsection{The Transition from LLM Chatbots to Agentic Collaborators}
 
 Between 2024 and 2026, the enterprise AI landscape underwent a fundamental transformation. The shift from standard large language models to autonomous agentic systems represents not an incremental improvement in capability, but a qualitative change in the computational paradigm itself. Where traditional LLMs operated as sophisticated response engines---accepting a prompt and returning a completion---agentic systems function as persistent, goal-directed entities that perceive, plan, act, and interact with complex environments over extended timeframes.
 
 This transition has been driven by three converging forces. First, the maturation of model capabilities---particularly in reasoning and instruction following---has made it feasible for LLMs to serve as the cognitive core of autonomous systems. Second, the development of standardized tool-use protocols and orchestration frameworks (LangChain, LangGraph, CrewAI, AutoGen) has lowered the engineering barrier to building multi-step agent workflows. Third, enterprise demand for automation that goes beyond content generation---toward actual task execution---has created a commercial imperative for agentic deployment.
 
-The result has been a sharp acceleration in production-grade agentic systems. Chat interfaces, browser-based agents, and enterprise automation platforms have led the surge, with an estimated 87\% of Fortune 500 companies piloting or deploying agentic AI systems by Q1 2026. These systems are no longer research prototypes. They are booking flights, executing trades, processing insurance claims, writing and deploying code, and managing customer service interactions---autonomously, and at scale.
+The result has been a marked acceleration in production-grade agentic deployments. Chat interfaces, browser-based agents, and enterprise automation platforms have led the adoption wave. Industry surveys suggest high but not precisely verified rates of enterprise piloting~\citep{mckinsey_agentic_ai}, and documented deployments span customer service automation, software development assistance, and structured workflow execution---though the scope and autonomy of these deployments vary considerably and resist precise quantification from the academic literature alone. Autonomous agency in high-stakes domains such as financial transactions or claims processing remains nascent and typically involves significant human-in-the-loop oversight.
 
 \subsection{Defining ``Agenticness'': Autonomy, Goal-Driven Reasoning, and Scaffolded Intelligence}
 
@@ -281,15 +295,15 @@ This represents a paradigm shift from ``how often does the agent succeed?'' to `
 \bibliography{references}
 
 \begin{IEEEbiographynophoto}{Fei Wang}
-Fei Wang is with Alchedata AI. Author biography details can be expanded here before final IEEE Access submission.
+Fei Wang is a co-founder of Alchedata AI, where he leads research on agentic AI systems and enterprise evaluation infrastructure. His work focuses on the intersection of LLM-based automation and production reliability. He is the corresponding author for this work.
 \end{IEEEbiographynophoto}
 
 \begin{IEEEbiographynophoto}{Salon Ren}
-Salon Ren is with Alchedata AI. Author biography details can be expanded here before final IEEE Access submission.
+Salon Ren is a researcher at Alchedata AI specializing in multi-agent system design and evaluation methodology. His interests include trajectory-level observability and the operationalization of AI safety frameworks in production environments.
 \end{IEEEbiographynophoto}
 
 \begin{IEEEbiographynophoto}{Eric Wang}
-Eric Wang is with Alchedata AI. Author biography details can be expanded here before final IEEE Access submission.
+Eric Wang is a researcher at Alchedata AI with a focus on enterprise AI deployment, cost optimization, and governance frameworks for autonomous systems. He contributes to the development of practical evaluation standards for agentic AI.
 \EOD
 \end{IEEEbiographynophoto}
 

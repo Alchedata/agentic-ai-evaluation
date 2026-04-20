@@ -4,60 +4,88 @@
 \section{The Evaluation Tooling Landscape: Open Source Packages and Industry Platforms}
 \label{sec:tooling}
 
-The methodological frameworks described in the preceding sections require practical tooling to be adopted at scale. Between 2024 and 2026, a rapidly maturing ecosystem of open source packages and industry platforms has emerged to address the evaluation gap. This section surveys the current landscape, organized by function, and identifies the strengths and limitations of each category.
+The methodological frameworks described in the preceding sections require practical tooling to be adopted at scale. Between 2024 and 2026, a rapidly maturing ecosystem of open-source packages and industry platforms has emerged to address the evaluation gap. This section surveys representative tools, organized by function, and critically examines their capabilities, limitations, and tradeoffs. Where possible, limitations noted here draw on documented behavior and published evaluations; for tools with limited independent evaluation, limitations are inferred from architectural constraints.
+
+\textbf{Methodological note:} This tooling survey does not apply a formal systematic review protocol (e.g., database search with inclusion/exclusion criteria). Tools were selected based on their prominence in the 2024--2026 literature and practitioner discourse. Readers should treat this as a thematic overview rather than an exhaustive comparison.
 
 \subsection{Open Source Evaluation and Simulation Packages}
 
-The open source community has been instrumental in advancing agentic evaluation, particularly in areas where proprietary tools lag behind---namely, multi-turn simulation, multi-agent orchestration, and benchmark automation.
-
 \subsubsection{ArkSim (arklexai/arksim)}
 
-ArkSim is an open-source framework designed specifically for multi-turn conversation simulation between agents and synthetic users~\citep{agent_eval_framework}. Built for LangChain and LangGraph agents, it integrates evaluations into the developer workflow via CI/CD pipelines, enabling the detection of regressions and failures early in the development lifecycle.
+ArkSim is an open-source framework designed specifically for multi-turn conversation simulation between agents and synthetic users~\citep{arksim_primary}. Built for LangChain and LangGraph agents, it integrates evaluations into the developer workflow via CI/CD pipelines, enabling the detection of regressions and failures early in the development lifecycle.
 
-ArkSim addresses a critical gap in the evaluation landscape: the inability to test agents under realistic multi-turn conditions before deployment. It generates synthetic user personas that interact with the agent across extended conversations, surfacing context loss, idempotency failures, and unexpected conversational paths that only appear after several turns. Key capabilities include:
+Key capabilities include: synthetic user persona generation, extended multi-turn conversation simulation, CI/CD integration for regression testing, and idempotency verification.
 
-\begin{itemize}
-    \item \textbf{Synthetic user generation}: Configurable personas that simulate diverse user behaviors and edge cases.
-    \item \textbf{Multi-turn conversation simulation}: Extended interaction sequences that test context retention and reasoning coherence over time.
-    \item \textbf{CI/CD integration}: Automated regression testing that catches failures before they reach production.
-    \item \textbf{Idempotency testing}: Verification that agent retries do not cause unintended side effects such as duplicate transactions or data entries.
-\end{itemize}
+\textbf{Limitations and considerations:} ArkSim's applicability is currently scoped to LangChain and LangGraph agents, limiting its usefulness for teams using other orchestration frameworks (e.g., AutoGen, CrewAI, or custom stacks). Synthetic user personas, while configurable, cannot fully replicate the open-ended diversity of real user behavior, meaning pre-deployment simulation is necessary but not sufficient. The framework's maturity as of early 2026 is still evolving, and independent comparative benchmarking against other simulation tools remains limited in the published literature. Teams should validate ArkSim's persona coverage against their actual user populations before relying on it as a production gate.
 
 \subsubsection{AgentScope (agentscope-ai/agentscope)}
 
-AgentScope is a production-ready framework with built-in support for multi-agent orchestration and observability~\citep{comprehensive_empirical}. Unlike single-agent evaluation tools, AgentScope is designed to evaluate the behavior of systems where multiple agents interact---surfacing emergent behaviors, coordination failures, and communication inefficiencies that are invisible when each agent is tested in isolation.
+AgentScope is a production-ready framework with built-in support for multi-agent orchestration and observability~\citep{comprehensive_empirical}. Unlike single-agent evaluation tools, AgentScope is designed to evaluate systems where multiple agents interact---surfacing emergent behaviors, coordination failures, and communication inefficiencies that are invisible when each agent is tested in isolation.
 
-The framework provides multi-agent orchestration tools, built-in observability with comprehensive tracing, distributed execution support, and flexible configuration for diverse agent architectures. AgentScope is particularly relevant for organizations deploying multi-agent systems, where the evaluation challenge is qualitatively different from single-agent assessment.
+The framework provides multi-agent orchestration tools, built-in observability with comprehensive tracing, distributed execution support, and flexible configuration for diverse agent architectures.
+
+\textbf{Limitations and considerations:} Empirical comparisons across agent frameworks by \citet{comprehensive_empirical} show that no single framework uniformly dominates on all task types; AgentScope's tracing capabilities are strongest for the orchestration patterns it natively supports. Teams using heterogeneous agent architectures may find that AgentScope's observability coverage is uneven across components. As with all orchestration-level tooling, the framework adds engineering overhead and potential failure modes of its own, which should be accounted for in evaluation design.
 
 \subsubsection{Evaluation-Agent (Vchitect/Evaluation-Agent)}
 
-The Evaluation-Agent framework, developed by the Vchitect team and recognized with an ACL 2025 Oral and Award, is tailored for evaluating visual generative models using human-like, multi-round strategies~\citep{agent_as_judge_survey}. It represents a domain-specific application of the Agent-as-a-Judge paradigm described in Section~\ref{sec:evaluator}.
+The Evaluation-Agent framework, developed by the Vchitect team and recognized with an ACL 2025 Oral and Best Paper Award, is tailored for evaluating visual generative models using human-like, multi-round strategies~\citep{evaluation_agent_primary}. It represents a domain-specific application of the Agent-as-a-Judge paradigm, engaging in multi-round evaluation with follow-up queries and progressive assessment refinement.
 
-Rather than relying on single-pass scoring, the Evaluation-Agent engages in multi-round evaluation---asking follow-up questions, requesting clarifications, and progressively refining its assessment. This mirrors the way human evaluators approach complex judgments, and has been shown to produce evaluations that align more closely with human expert assessments.
+\textbf{Limitations and considerations:} Evaluation-Agent is specifically designed for visual/multimodal generative models and does not generalize directly to text-only agentic tasks or tool-use evaluation. Its multi-round strategy, while producing evaluations that align more closely with human expert assessments in its target domain, also increases evaluation latency and cost. Teams outside the visual generation domain should treat Evaluation-Agent as an existence proof of multi-round judge advantages rather than as a directly applicable tool. Full citation details should be verified against the published ACL 2025 Anthology before final submission of this paper.
 
 \subsubsection{BenchAgents}
 
-BenchAgents automates the creation of evaluation benchmarks using LLM-agent orchestration~\citep{benchagents}. Rather than requiring human experts to manually curate test sets, BenchAgents uses a team of LLM agents to generate, validate, and refine evaluation benchmarks automatically. The framework addresses a fundamental bottleneck in agentic evaluation: the scarcity of high-quality, domain-specific test sets.
+BenchAgents automates the creation of evaluation benchmarks using LLM-agent orchestration~\citep{benchagents}. Rather than requiring human experts to manually curate test sets, BenchAgents uses a team of LLM agents to generate, validate, and refine evaluation benchmarks automatically.
+
+\textbf{Limitations and considerations:} Automated benchmark generation introduces the risk of \textit{benchmark circularity}: benchmarks generated by LLM agents may be systematically easier for the same class of LLM agents to solve, producing overoptimistic evaluations. The quality of BenchAgents-generated benchmarks relative to expert-curated ones has not been comprehensively validated across domains. Human review of generated benchmarks remains important to detect distributional blind spots and to ensure that generated tasks reflect realistic production complexity.
 
 \subsection{Industry Platforms and Frameworks}
 
-Alongside open source tools, several industry platforms have emerged that provide managed evaluation infrastructure for enterprise deployments.
-
 \subsubsection{AWS Strands Evals}
 
-AWS Strands Evals provides a practical guide for judgmental evaluation using natural language rubrics and experiments~\citep{strands_evals}. It enables teams to define evaluation criteria in plain English, run structured experiments, and compare agent performance across configurations.
+AWS Strands Evals provides tooling for judgmental evaluation using natural language rubrics and structured experiments~\citep{strands_evals}. It enables teams to define evaluation criteria in plain English, run structured experiments, and compare agent performance across configurations.
+
+\textbf{Limitations and considerations:} Strands Evals is tightly integrated into the AWS ecosystem, creating platform dependency that may limit portability. Natural language rubrics, while accessible, can introduce ambiguity in evaluation criteria that structured metrics avoid. No independent academic evaluation of Strands Evals' reliability or bias characteristics had been published as of this writing; practitioners should treat AWS-published performance claims as vendor-provided data requiring independent validation.
 
 \subsubsection{Amazon Bedrock AgentCore Evaluations}
 
-Amazon Bedrock AgentCore Evaluations provides automated assessment tools for maintaining consistency across contexts~\citep{aws_evaluating_agents}. It is designed for teams deploying agents on the AWS Bedrock platform, and integrates evaluation into the agent development and deployment workflow.
+Amazon Bedrock AgentCore Evaluations provides automated assessment tools for agents deployed on the Bedrock platform~\citep{aws_evaluating_agents}. It integrates evaluation into the agent development and deployment workflow for Bedrock-native architectures.
+
+\textbf{Limitations and considerations:} Like Strands Evals, AgentCore Evaluations is proprietary AWS infrastructure with significant vendor lock-in. The depth of trajectory-level observability it provides compared to open-source alternatives is not independently characterized in the published literature. Organizations should assess whether the convenience of managed evaluation infrastructure outweighs the reduced portability and vendor dependency.
 
 \subsubsection{LangSmith (LangChain)}
 
-LangSmith provides tracing and evaluation templates for LangChain-native workflows~\citep{agent_eval_framework}. As the most widely adopted agent orchestration framework, LangChain's evaluation tooling is particularly important: it provides the infrastructure for capturing execution traces, defining evaluation criteria, and running structured evaluations. LangSmith's tracing capabilities are a practical implementation of the trajectory observability that this paper argues is a prerequisite for meaningful evaluation.
+LangSmith provides tracing and evaluation templates for LangChain-native workflows~\citep{langsmith_primary}. Its tracing capabilities are widely used in practice and represent a concrete implementation of the trajectory observability that this paper argues is a prerequisite for meaningful evaluation.
+
+\textbf{Limitations and considerations:} LangSmith's tracing is best supported for LangChain/LangGraph workflows; instrumentation for other frameworks requires manual integration. As a commercial product, its pricing model, data retention policies, and access controls are relevant governance considerations for enterprise deployments. LangSmith does not natively implement the judge-reliability stress-testing described in Section~\ref{sec:evaluator}; teams using LangSmith as their primary evaluation infrastructure should supplement it with JRH-style perturbation testing.
+
+\subsection{Critical Comparison}
+
+Table~\ref{tab:tool_comparison} provides a structured comparison across key evaluation dimensions. Ratings reflect the authors' synthesis of documented capabilities and published evaluations; ``limited'' indicates insufficient independent evidence to make a confident judgment.
+
+\begin{table}[htbp]
+\centering
+\caption{Critical comparison of evaluation tools across key dimensions (O=Open source, C=Commercial; ratings: H=high, M=medium, L=low, ?=insufficient evidence).}
+\label{tab:tool_comparison}
+\resizebox{0.96\columnwidth}{!}{%
+\begin{tabular}{@{}llccccc@{}}
+\toprule
+\textbf{Tool} & \textbf{Type} & \textbf{Multi-turn} & \textbf{Trajectory} & \textbf{Multi-agent} & \textbf{Portability} & \textbf{Ind.\ Eval.} \\
+\midrule
+ArkSim & O & H & M & L & M & ? \\
+AgentScope & O & M & H & H & H & M \\
+Evaluation-Agent & O & H & M & L & L (visual) & H \\
+BenchAgents & O & L & L & M & H & L \\
+Strands Evals & C & M & M & M & L (AWS) & ? \\
+Bedrock AgentCore & C & M & M & M & L (AWS) & ? \\
+LangSmith & C & H & H & M & M (LC) & M \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
 
 \subsection{Selecting the Right Tooling: A Decision Framework}
 
-The choice of evaluation tooling should be driven by the specific evaluation needs of the organization, not by tool availability. Table~\ref{tab:tool_selection} maps evaluation requirements to tool categories.
+The choice of evaluation tooling should be driven by specific evaluation needs, not by tool availability. Table~\ref{tab:tool_selection} maps evaluation requirements to tool categories.
 
 \begin{table}[htbp]
 \centering
@@ -80,4 +108,4 @@ Judge reliability & Perturbation testing & JRH \\
 }
 \end{table}
 
-No single tool addresses all evaluation needs. Effective evaluation infrastructure typically combines multiple tools---using simulation for pre-deployment testing, tracing for production observability, and judge reliability testing for evaluation quality assurance. The key principle is that evaluation tooling should be selected to match the evaluation methodology, not the other way around.
+No single tool addresses all evaluation needs. Effective evaluation infrastructure typically combines multiple tools---simulation for pre-deployment testing, tracing for production observability, and judge reliability testing for evaluation quality assurance. The key principle is that evaluation tooling should be selected to match the evaluation methodology, not the other way around. For all managed or commercial tools, teams should independently validate reliability and bias characteristics rather than relying solely on vendor documentation.

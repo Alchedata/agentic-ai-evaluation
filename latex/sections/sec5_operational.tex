@@ -29,11 +29,11 @@ To evaluate economic efficiency, the metric of \keyword{Cost-Normalized Accuracy
 \end{equation}
 where Cost is measured in USD per task. CNA makes the accuracy-cost tradeoff explicit, enabling organizations to compare agents not just on how well they perform, but on how efficiently they achieve that performance.
 
-Evaluation of leading agent architectures on enterprise tasks demonstrates a striking result, shown in Table~\ref{tab:cna_results} and visualized in Figure~\ref{fig:cna_comparison}.
+To illustrate how CNA reorders the conventional accuracy ranking, Table~\ref{tab:cna_results} presents a schematic comparison using representative architecture archetypes. The values are adapted from the evaluation setup described in~\citet{beyond_accuracy} and should be read as illustrative examples of the metric's behavior rather than as independently validated benchmark results. Figure~\ref{fig:cna_comparison} visualizes the same comparison.
 
 \begin{table}[htbp]
 \centering
-\caption{Architecture comparison: efficacy, cost, and CNA.}
+\caption{Illustrative architecture comparison: efficacy, cost, and CNA (schematic example adapted from~\citet{beyond_accuracy}; values are not original experimental results).}
 \label{tab:cna_results}
 \resizebox{0.96\columnwidth}{!}{%
 \begin{tabular}{@{}lccc@{}}
@@ -56,11 +56,11 @@ Plan-Execute & 71.9 & 1.05 & 68.5 \\
 \label{fig:cna_comparison}
 \end{figure*}
 
-The Reflexion architecture---often cited for its high accuracy---is \textbf{4.7$\times$ more expensive} than the domain-tuned alternative while delivering lower accuracy. The Domain-Tuned agent achieves the highest accuracy at the lowest cost, producing a CNA more than 15$\times$ higher than Reflexion.
+In this illustrative example, the Reflexion architecture---often cited for its high accuracy---is substantially more expensive than the domain-tuned alternative while delivering lower accuracy. The Domain-Tuned agent achieves the highest accuracy at the lowest cost, producing a CNA more than 15$\times$ higher than Reflexion. Real-world rankings will depend on specific task distributions, model versions, and pricing at evaluation time.
 
-This finding highlights what researchers call a \keyword{distorted research landscape} where expensive and fragile solutions appear superior in standard accuracy-only benchmarks~\citep{measurement_imbalance}. Simple baseline strategies can sometimes outperform complex agents at 50$\times$ lower cost.
+The broader concern this example illustrates is what researchers describe as a \keyword{distorted research landscape}, where expensive and fragile solutions appear superior in standard accuracy-only benchmarks~\citep{measurement_imbalance}. Simple baseline strategies can sometimes outperform complex agents at substantially lower cost---a pattern that accuracy-only reporting would obscure.
 
-\textbf{CNA should be a standard reporting requirement alongside any accuracy metric.} Any benchmark result reported without cost normalization is incomplete. The most accurate agent in an evaluation suite may be economically inviable at production scale.
+\textbf{We propose that CNA be adopted as a standard reporting companion to any accuracy metric.} Any benchmark result reported without cost normalization is incomplete from an economic standpoint. Whether CNA or a related cost-normalized metric becomes the community standard requires broader discussion, but the principle---that cost and accuracy must be reported together---is well-supported by the literature surveyed here.
 
 \subsection{Security Challenges: Offensive Agentic Risk and API/MCP Gateways}
 

@@ -6,7 +6,7 @@
 
 \subsection{The CLEAR Framework for Deployment Governance}
 
-For organizations to move beyond pilots, they require a holistic evaluation across what is known as the \keyword{CLEAR dimensions}~\citep{beyond_accuracy}:
+Moving from pilots to production-grade deployment requires holistic evaluation across multiple dimensions simultaneously. Drawing on the multi-dimensional framework proposed by \citet{beyond_accuracy} and corroborated by practitioner reports~\citep{aws_evaluating_agents, production_ready_agentic}, we synthesize and name five recurring evaluation dimensions as the \keyword{CLEAR framework}. CLEAR is a conceptual synthesis proposed in this survey to organize the deployment-readiness criteria that appear most consistently across the literature; it is not yet an established industry standard or a formally validated assessment instrument. The five dimensions are:
 
 \begin{description}
     \item[C --- Cost per task] (absolute and normalized): Not just the raw cost of API calls and compute, but the cost normalized by task complexity and success rate. CNA provides the standard metric.
@@ -29,7 +29,7 @@ No single dimension is sufficient. An agent that scores well on accuracy but fai
 
 \subsection{Simulation-Based Testing: Synthetic Users and Multi-Turn Stability}
 
-A significant challenge in agent development is proving readiness for production before the agent encounters real users. Tools like \keyword{ArkSim} have emerged to facilitate multi-turn conversation simulation between agents and synthetic users~\citep{agent_eval_framework}.
+A significant challenge in agent development is proving readiness for production before the agent encounters real users. Tools like \keyword{ArkSim} have emerged to facilitate multi-turn conversation simulation between agents and synthetic users~\citep{arksim_primary}.
 
 ArkSim, an open-source framework designed for LangChain and LangGraph agents, integrates evaluations into the developer workflow via CI/CD platforms. This allows for the detection of regressions and failures early in the lifecycle. Multi-turn simulation is particularly effective for testing:
 

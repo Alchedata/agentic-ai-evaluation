@@ -6,7 +6,7 @@
 
 \subsection{Integrating Human-Centered and Economic Metrics}
 
-A systematic review of papers from 2023 to 2025 reveals a \keyword{measurement imbalance}: 83\% of evaluations focus on technical performance, while only 30\% consider human-centered factors and 30\% consider economic impacts~\citep{measurement_imbalance}. This gap creates a fundamental disconnect between benchmark success and deployment value, often leading to rollout reversals and failed investments. Figure~\ref{fig:measurement_imbalance} visualizes this imbalance.
+A systematic review of papers from 2023 to 2025 conducted by \citet{measurement_imbalance} reveals a \keyword{measurement imbalance} within that study's review corpus: approximately 83\% of the evaluations analyzed focused primarily on technical performance, while only around 30\% addressed human-centered factors and a similar proportion considered economic impacts. These percentages are specific to the coding and review criteria used by that study and should be interpreted as characterizing a particular sample of the literature, not as universal constants. The directional finding---that technical metrics dominate over human-centered and economic ones---is consistent with the broader pattern visible across the surveyed literature. Figure~\ref{fig:measurement_imbalance} visualizes this imbalance.
 
 \begin{figure*}[htbp]
 \centering
@@ -47,7 +47,7 @@ The development of these standards will require collaboration across industry, a
 
 \subsection{Toward Verifiable and Trustworthy Autonomous Agents}
 
-The 2026 target for enterprise-grade agentic systems is \textbf{95\%+ task accuracy} in multi-turn reasoning workflows while maintaining economic sustainability~\citep{mckinsey_agentic_ai}. Reaching that target requires closing the measurement imbalance---integrating technical performance, human-centered assessment, and economic efficiency into a single evaluation standard.
+Industry practitioners have articulated aspirational targets for enterprise-grade agentic systems---including 95\%+ task accuracy in multi-turn reasoning workflows~\citep{mckinsey_agentic_ai}---though such figures reflect industry planning horizons and marketing commitments rather than academic consensus benchmarks. Whether 95\% represents a meaningful or achievable threshold depends heavily on task definition, evaluation methodology, and deployment context. We cite this figure as an indicator of where the practitioner community is directing investment, not as a validated scientific target. Reaching even a well-defined accuracy target requires closing the measurement imbalance---integrating technical performance, human-centered assessment, and economic efficiency into a coherent evaluation approach.
 
 The methodological building blocks now exist:
 
@@ -69,7 +69,9 @@ The challenge is adoption. Most teams are still optimizing for the metric they c
 \section{Conclusion and Strategic Recommendations}
 \label{sec:conclusion}
 
-The transition to agentic AI requires a radical departure from the evaluation methodologies of the previous generation. The current research landscape emphasizes that task completion is a necessary but insufficient condition for production readiness. Organizations and researchers must prioritize trajectory-level observability to understand why agents succeed or fail, particularly in multi-turn interactions where compounding errors are common.
+This survey has synthesized the agentic AI evaluation literature of 2024--2026, identifying structural gaps, reviewing proposed frameworks, and critically examining the tooling ecosystem. The key finding is that evaluation methodologies inherited from static NLP are systematically inadequate for the non-deterministic, multi-step, tool-mediated behavior of agentic systems. Task completion is a necessary but insufficient condition for production readiness. The CLEAR dimensions and Cost-Normalized Accuracy proposed here are conceptual synthesis contributions intended to prompt community standardization discussion---not empirically validated instruments ready for direct adoption. Similarly, the Four-Pillar Model and success masking framing are organizational syntheses rather than novel empirical discoveries.
+
+Organizations and researchers must prioritize trajectory-level observability to understand why agents succeed or fail, particularly in multi-turn interactions where compounding errors are common.
 
 The adoption of Agent-as-a-Judge paradigms offers a scalable path to achieving human-level evaluation quality while significantly reducing costs. However, this must be balanced with rigorous stress-testing of those judges using libraries like the Judge Reliability Harness to ensure they are not merely reflecting their own internal biases.
 
