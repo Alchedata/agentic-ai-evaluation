@@ -14,6 +14,7 @@ The measurement imbalance identified throughout this survey is not only visible 
 \label{tab:benchmark_coverage}
 \footnotesize
 \setlength{\tabcolsep}{4pt}
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}lccccccc@{}}
 \toprule
 \textbf{Benchmark} & \textbf{Core Model} & \textbf{Memory} & \textbf{Tool Use} & \textbf{Environment} & \textbf{Economic (Cost/Lat.)} & \textbf{Adherence} & \textbf{Resilience} \\
@@ -31,6 +32,7 @@ Mind2Web~\citep{beyond_benchmark_islands}     & $\checkmark$ & ---     & $\check
 \textbf{Coverage (\%)} & \textbf{100\%} & \textbf{approx. 33\%} & \textbf{approx. 78\%} & \textbf{approx. 67\%} & \textbf{approx. 11\%} & \textbf{approx. 22\%} & \textbf{approx. 22\%} \\
 \bottomrule
 \end{tabular}
+}
 \end{table*}
 
 The pattern is stark. Core Model coverage is universal; Tool Use and Environment are reasonably well-represented. Memory evaluation is partial in only one-third of benchmarks and absent in the rest. Economic, Adherence, and Resilience coverage each falls below 25\% across the set. HAAF is the only benchmark in this survey that explicitly addresses four or more of the seven dimensions. This table is not an argument that every benchmark must cover every dimension; domain-specific benchmarks rightly focus on the dimensions most relevant to their deployment context. It is, however, a concrete illustration of where the research community has concentrated its measurement effort and where the gaps are largest---gaps that Table~\ref{tab:benchmark_coverage} makes difficult to dispute.
@@ -42,6 +44,8 @@ A systematic review of papers from 2023 to 2025 conducted by \citet{measurement_
 \begin{figure}[htbp]
 \centering
 \input{figures/measurement_imbalance}
+\vspace{-0.2em}
+\fontsize{6}{6.8}\selectfont
 \caption{The measurement imbalance in agentic AI evaluation. Technical metrics dominate the literature, while security and human-centered considerations remain critically underrepresented.}
 \label{fig:measurement_imbalance}
 \end{figure}

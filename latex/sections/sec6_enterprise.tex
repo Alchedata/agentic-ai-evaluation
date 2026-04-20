@@ -35,19 +35,21 @@ Organizations and research teams operate at widely varying levels of evaluation 
 \centering
 \caption{Evaluation Readiness Maturity Model (ERMM): five levels of agentic AI evaluation practice, with characteristics and diagnostic criteria for each level.}
 \label{tab:ermm}
-\resizebox{0.96\columnwidth}{!}{%
-\begin{tabular}{@{}clp{3.0cm}p{3.0cm}@{}}
+\fontsize{6}{6.8}\selectfont
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{0.92}
+\begin{tabularx}{1 \columnwidth}{@{}c l >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X@{}}
 \toprule
 \textbf{Level} & \textbf{Name} & \textbf{Characteristics} & \textbf{Diagnostic Criteria} \\
 \midrule
-L0 & Outcome-Only & Binary pass/fail; black-box accuracy metric only & No trajectory logging; single accuracy figure reported \\
-L1 & Pillar-Aware & At least two of four pillars evaluated separately & Tool and model evaluations separated; no cost reporting \\
-L2 & Trajectory-Enabled & Execution paths logged and inspected; GPA decomposition applied & Step-level failures diagnosable from traces \\
-L3 & Multi-Dimensional & All CLEAR dimensions assessed; CNA reported alongside accuracy & Cost, latency, adherence, and resilience all measured \\
-L4 & Adaptive & Continuous, risk-weighted; HITL calibration; evaluation horizon tracked & Scenario manifold with risk weights; judge stress-testing; benchmark refresh cycle in place \\
+L0 & Outcome-Only & Binary pass/fail and black-box accuracy only & No trajectory logging; single accuracy value \\
+L1 & Pillar-Aware & At least two pillars evaluated separately & Tool and model scores separated; no cost reporting \\
+L2 & Trajectory-Enabled & Execution traces logged; GPA decomposition applied & Step-level failures diagnosable from traces \\
+L3 & Multi-Dimensional & All CLEAR dimensions assessed; CNA tracked & Cost, latency, adherence, and resilience measured \\
+L4 & Adaptive & Continuous, risk-weighted evaluation; HITL calibration; horizon tracking & Scenario manifold with risk weights; judge stress tests; refresh cycle \\
 \bottomrule
-\end{tabular}
-}
+\end{tabularx}
+\renewcommand{\arraystretch}{1}
 \end{table}
 
 Most published research operates at L0--L1. Most production deployments have not yet reached L2, which requires trajectory instrumentation as a prerequisite. The ERMM is not prescriptive about rate of advancement: moving from L0 to L1 is more impactful for a low-risk workflow than moving from L3 to L4, and organizations should triage by the consequences of evaluation failure in their deployment context. The model's primary value is a shared vocabulary for diagnosing where evaluation gaps exist and a concrete roadmap for closing them.

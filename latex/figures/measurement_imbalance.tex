@@ -1,27 +1,27 @@
 % Measurement Imbalance in Agentic AI Evaluation
-\resizebox{\columnwidth}{!}{%
+\resizebox{0.68\columnwidth}{!}{%
 \begin{tikzpicture}
 \begin{axis}[
     ybar,
-    width=7.2cm,
-    height=5.6cm,
-    bar width=11pt,
+    width=4.9cm,
+    height=3.5cm,
+    bar width=7pt,
     ymin=0,
     ymax=90,
     ylabel={Share of reviewed studies (\%)},
-    ylabel style={font=\scriptsize},
+    ylabel style={font=\tiny, scale=0.72, transform shape, at={(axis description cs:-0.18,0.5)}},
     symbolic x coords={Technical, Human, Economic, Security},
     xtick=data,
-    x tick label style={font=\scriptsize, rotate=20, anchor=east},
+    x tick label style={font=\tiny, scale=0.72, transform shape, rotate=18, anchor=east},
     ytick={0,20,40,60,80},
-    yticklabel style={font=\scriptsize},
+    yticklabel style={font=\tiny, scale=0.72, transform shape},
     nodes near coords,
-    nodes near coords style={font=\scriptsize\bfseries},
+    nodes near coords style={font=\tiny\bfseries, scale=0.72, transform shape},
     every axis plot/.append style={draw=none, fill opacity=0.9},
     grid=major,
     grid style={gray!15},
     axis lines*=left,
-    enlarge x limits=0.16,
+    enlarge x limits=0.08,
     clip=false
 ]
 

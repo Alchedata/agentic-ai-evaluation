@@ -1,16 +1,9 @@
 % Evaluating the Autonomous Mind: A Multi-Dimensional Framework for Agentic AI Readiness
 
-\let\texprimitiveyear\year
-
-\documentclass[journal,nolineno]{ieeeaccess}
-\let\accessmetadatayear\year
-\let\year\texprimitiveyear
-
-% Override the IEEE Access spot color with a standard CMYK fallback for viewers
-% that do not render Pantone spot colors correctly.
-\definecolor{accessblue}{cmyk}{1,0.3,0,0.2}
+\documentclass[11pt]{article}
 
 % ── Packages ──────────────────────────────────────────────────────────
+\usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{tabularx}
@@ -23,6 +16,7 @@
 \usepackage{float}
 \usepackage{multicol}
 \usepackage{xurl}
+\usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
 
 % ── TikZ Libraries ───────────────────────────────────────────────────
@@ -52,19 +46,17 @@
 
 % ── Custom Commands ──────────────────────────────────────────────────
 \newcommand{\keyword}[1]{\textbf{#1}}
+\newcommand{\keywords}[1]{\par\noindent\textbf{Keywords:} #1}
 
 % ══════════════════════════════════════════════════════════════════════
 \begin{document}
-
-\history{Date of publication xxxx 00, 0000, date of current version April 18, 2026.}
-\doi{10.1109/ACCESS.2026.XXXXXXX}
 
 \title{Evaluating the Autonomous Mind: A Multi-Dimensional Framework for Agentic AI Readiness}
 
 \author{Fei Wang, Salon Ren, and Eric Wang%
 \thanks{Fei Wang, Salon Ren, and Eric Wang are with Alchedata AI. Corresponding author: Fei Wang.}}
 
-\markboth{Publication Draft, April 2026}{Wang \MakeLowercase{\textit{et al.}}: Evaluating the Autonomous Mind}
+\date{}
 
 \maketitle
 
@@ -72,9 +64,7 @@
 The transition from static large language models to autonomous agentic systems between 2024 and 2026 has exposed a fundamental measurement crisis: evaluation methodologies inherited from traditional natural language processing fail to capture the non-deterministic, multi-step, tool-mediated nature of agentic behavior. Binary success metrics treat agents as black boxes, measuring where they ended up rather than how they got there, a phenomenon described in recent literature as the \emph{success masking problem}. This paper presents a critical survey of emerging evaluation research and synthesizes the findings into an integrated conceptual framework. We organize the literature around four functional evaluation pillars (core model, memory, tool use, and environment), survey trajectory-level metrics that inspect complete execution paths, review agent-as-a-judge paradigms alongside reliability stress-testing via the Judge Reliability Harness, and examine the open-source and commercial tooling ecosystem. Drawing on this synthesis, we propose the CLEAR dimensions (cost, latency, efficacy, adherence, resilience) and Cost-Normalized Accuracy (CNA) as candidate standards for structured deployment assessment---acknowledging that neither has yet achieved formal community consensus. The paper identifies a persistent measurement imbalance that allows agents to pass benchmarks while failing in production, and offers recommendations for closing that gap. Four original synthesis contributions are introduced: a Phase--Pillar Failure Matrix that unifies failure diagnostics across cognitive phases and architectural components; a cross-benchmark coverage analysis of nine representative benchmarks revealing systematic gaps in memory, economic, adherence, and resilience coverage; an Evaluation Readiness Maturity Model (ERMM) providing a five-level diagnostic framework for practitioners; and the concept of evaluation horizon, formalizing the finite period over which a benchmark retains discriminative validity before training-data contamination degrades its signal. All quantitative claims are attributed to the primary studies that generated them and should be interpreted within the scope of those studies' evaluation setups.
 \end{abstract}
 
-\begin{IEEEkeywords}
-Agent-as-a-Judge, agentic AI, Cost-Normalized Accuracy, enterprise readiness, evaluation frameworks, trajectory metrics.
-\end{IEEEkeywords}
+\keywords{Agent-as-a-Judge, agentic AI, Cost-Normalized Accuracy, enterprise readiness, evaluation frameworks, trajectory metrics.}
 
 % ══════════════════════════════════════════════════════════════════════
 % SECTION I
@@ -294,19 +284,6 @@ This represents a paradigm shift from ``how often does the agent succeed?'' to `
 % ══════════════════════════════════════════════════════════════════════
 \bibliographystyle{IEEEtranN}
 \bibliography{references}
-
-\begin{IEEEbiographynophoto}{Fei Wang}
-Fei Wang is a Cofounder of Alchedata AI, where he leads the development of foundation model post-training infrastructure and multi-agent orchestration systems for enterprise data services. Prior to this, he served as Head of Personalization Science at Amazon Prime Video, where he led a team scientists and engineers building recommendation and search systems at scale, including the StreamFM foundation model for video ranking. Before Amazon, he was Senior Director of AI Research at Visa Research, where he  led the development  of AI-driven fraud detection and recommender systems deployed across Visa's core products. Earlier in his career, he held lead scientist positions at AIBEE, Zepp Health (Amazfit), and AliveCor, where he developed FDA-approved algorithms for cardiovascular disease detection from ECG/PPG signals. He received his Ph.D. in Computer Science from the University of Florida and has authored 80+ publications  and 70+ patents. His research interests include foundation model post-training, reinforcement learning from human feedback, personalization systems, and agentic AI.
-\end{IEEEbiographynophoto}
-
-\begin{IEEEbiographynophoto}{Salon Ren}
-Salon Ren is a Cofounder of Alchedata AI specializing in multi-agent system design and evaluation methodology. His interests include trajectory-level observability and the operationalization of AI safety frameworks in production environments.
-\end{IEEEbiographynophoto}
-
-\begin{IEEEbiographynophoto}{Eric Wang}
-Eric Wang is a researcher at Alchedata AI with a focus on enterprise AI deployment, cost optimization, and governance frameworks for autonomous systems. He contributes to the development of practical evaluation standards for agentic AI.
-\EOD
-\end{IEEEbiographynophoto}
 
 \end{document}
 
