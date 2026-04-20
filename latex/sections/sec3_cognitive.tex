@@ -83,3 +83,42 @@ Action & Execution errors & Tool use failures & Better descriptions, validation 
 \end{table}
 
 An agent with a high Goal score but low Action score understands what to do but cannot execute it. An agent with a high Action score but low Goal score can execute flawlessly---but on the wrong task. These are fundamentally different problems requiring fundamentally different solutions.
+
+\subsection{A Unified Failure Taxonomy: The Phase--Pillar Matrix}
+
+The GPA decomposition and the four-pillar model are typically presented independently. Synthesizing them produces a \keyword{Phase--Pillar Failure Matrix}---a structured taxonomy that maps each combination of cognitive phase (Goal, Plan, Action) and architectural pillar (Core Model, Memory, Tool Use, Environment) to its characteristic failure mode. Table~\ref{tab:phase_pillar} presents this synthesis.
+
+\begin{table*}[htbp]
+\centering
+\caption{Phase--Pillar Failure Matrix: characteristic failure modes at each intersection of cognitive phase and architectural pillar. Each cell describes the dominant failure that emerges when that pillar degrades during that phase.}
+\label{tab:phase_pillar}
+\resizebox{0.98\textwidth}{!}{%
+\begin{tabular}{@{}lp{3.8cm}p{3.8cm}p{3.8cm}p{3.8cm}@{}}
+\toprule
+\textbf{Phase} & \textbf{Core Model} & \textbf{Memory} & \textbf{Tool Use} & \textbf{Environment} \\
+\midrule
+\textbf{Goal} &
+  Misinterpreted intent; objective misaligned with user's actual need &
+  Stale or incomplete context causes wrong goal inference from prior turns &
+  Incorrect tool category selected for task type before planning begins &
+  Environmental state misread; goal set against outdated or incorrect world state \\
+\addlinespace
+\textbf{Plan} &
+  Hallucinated strategy; over-complex or invalid plan steps &
+  Forgotten constraint invalidates an otherwise sound plan &
+  Tool dependencies misordered; prerequisite call missing from plan &
+  Resource or permission limits not anticipated; plan unexecutable in actual env \\
+\addlinespace
+\textbf{Action} &
+  Instruction drift mid-execution; constraint violation not caught at runtime &
+  Context loss corrupts execution; agent forgets earlier decisions mid-task &
+  Wrong parameters passed; error cascade; non-idempotent retry causes side effects &
+  Auth failures, rate limits, or mid-execution env changes break the workflow \\
+\bottomrule
+\end{tabular}
+}
+\end{table*}
+
+The matrix is useful in two directions. \emph{Horizontally}, each GPA phase has a distinct failure signature across pillars: Goal failures are primarily informational (the agent misunderstood the problem), Plan failures are structural (the strategy is invalid), and Action failures are operational (the execution breaks). \emph{Vertically}, each pillar generates failures at all three cognitive levels---memory degradation, for instance, corrupts goal-setting (wrong context), invalidates plans (forgotten constraint), and causes mid-execution context loss. This cross-cutting nature is why pillar-level fixes do not necessarily resolve phase-level failures.
+
+Practitioners can use the matrix as a diagnostic triage tool: when an agent fails, the observable symptom typically localizes to one cell, pointing toward both the cognitive phase where the failure manifests and the architectural component that is the root cause. The appropriate remediation differs by cell---re-prompting addresses Core Model / Goal failures; improving retrieval recall addresses Memory / Plan failures; parameter validation addresses Tool Use / Action failures.

@@ -1,35 +1,40 @@
 % Measurement Imbalance in Agentic AI Evaluation
-\resizebox{0.96\textwidth}{!}{%
+\resizebox{\columnwidth}{!}{%
 \begin{tikzpicture}
 \begin{axis}[
-    xbar,
-    width=12cm, height=5.5cm,
-    bar width=14pt,
-    xlabel={Proportion of Evaluation Literature (\%)},
-    xlabel style={font=\small},
-    ytick={1,2,3,4},
-    yticklabels={Security, Economic, Human-Centered, Technical},
-    yticklabel style={font=\small},
-    xticklabel style={font=\small},
-    xmin=0, xmax=100,
+    ybar,
+    width=7.2cm,
+    height=5.6cm,
+    bar width=11pt,
+    ymin=0,
+    ymax=90,
+    ylabel={Share of reviewed studies (\%)},
+    ylabel style={font=\scriptsize},
+    symbolic x coords={Technical, Human, Economic, Security},
+    xtick=data,
+    x tick label style={font=\scriptsize, rotate=20, anchor=east},
+    ytick={0,20,40,60,80},
+    yticklabel style={font=\scriptsize},
     nodes near coords,
-    nodes near coords style={font=\small\bfseries},
-    every axis plot/.append style={fill opacity=0.85},
+    nodes near coords style={font=\scriptsize\bfseries},
+    every axis plot/.append style={draw=none, fill opacity=0.9},
     grid=major,
     grid style={gray!15},
-    title={\textbf{Measurement Imbalance in Agentic AI Evaluation}},
-    title style={font=\normalsize, text=alchedark},
-    enlarge y limits=0.25
+    axis lines*=left,
+    enlarge x limits=0.16,
+    clip=false
 ]
 
-\addplot[fill=pillar1!70, draw=pillar1!90] coordinates {
-    (83, 4) (30, 3) (30, 2) (12, 1)
+\addplot[fill=alcheblue] coordinates {
+    (Technical, 83)
+    (Human, 30)
+    (Economic, 30)
+    (Security, 12)
 };
 
+\node[font=\scriptsize, text=riskred, align=center] at (axis cs:Security,20)
+    {Technical emphasis remains dominant;\\security coverage is thinnest.};
+
 \end{axis}
-
-% Annotation
-\node[font=\scriptsize, text=riskred, align=center] at (9, 0.5) {83\% technical vs.\ 12\% security\\= blind spots in production};
-
 \end{tikzpicture}
 }

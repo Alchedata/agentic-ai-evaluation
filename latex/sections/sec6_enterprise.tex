@@ -27,6 +27,31 @@ Figure~\ref{fig:clear_radar} visualizes the CLEAR framework as a radar chart, co
 
 No single dimension is sufficient. An agent that scores well on accuracy but fails on adherence is not enterprise-ready. An agent that is fast but unreliable is not deployable. The CLEAR framework requires assessment across all five dimensions before deployment.
 
+\subsection{An Evaluation Readiness Maturity Model}
+
+Organizations and research teams operate at widely varying levels of evaluation sophistication. To support structured improvement, we propose an \keyword{Evaluation Readiness Maturity Model} (ERMM) defining five progressive levels of agentic evaluation practice, from basic outcome measurement to continuous risk-weighted assessment. The model is intended as a diagnostic and planning tool, not a compliance checklist---advancing one level provides meaningful improvement regardless of where a team currently sits. Table~\ref{tab:ermm} defines each level.
+
+\begin{table}[htbp]
+\centering
+\caption{Evaluation Readiness Maturity Model (ERMM): five levels of agentic AI evaluation practice, with characteristics and diagnostic criteria for each level.}
+\label{tab:ermm}
+\resizebox{0.96\columnwidth}{!}{%
+\begin{tabular}{@{}clp{3.0cm}p{3.0cm}@{}}
+\toprule
+\textbf{Level} & \textbf{Name} & \textbf{Characteristics} & \textbf{Diagnostic Criteria} \\
+\midrule
+L0 & Outcome-Only & Binary pass/fail; black-box accuracy metric only & No trajectory logging; single accuracy figure reported \\
+L1 & Pillar-Aware & At least two of four pillars evaluated separately & Tool and model evaluations separated; no cost reporting \\
+L2 & Trajectory-Enabled & Execution paths logged and inspected; GPA decomposition applied & Step-level failures diagnosable from traces \\
+L3 & Multi-Dimensional & All CLEAR dimensions assessed; CNA reported alongside accuracy & Cost, latency, adherence, and resilience all measured \\
+L4 & Adaptive & Continuous, risk-weighted; HITL calibration; evaluation horizon tracked & Scenario manifold with risk weights; judge stress-testing; benchmark refresh cycle in place \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+Most published research operates at L0--L1. Most production deployments have not yet reached L2, which requires trajectory instrumentation as a prerequisite. The ERMM is not prescriptive about rate of advancement: moving from L0 to L1 is more impactful for a low-risk workflow than moving from L3 to L4, and organizations should triage by the consequences of evaluation failure in their deployment context. The model's primary value is a shared vocabulary for diagnosing where evaluation gaps exist and a concrete roadmap for closing them.
+
 \subsection{Simulation-Based Testing: Synthetic Users and Multi-Turn Stability}
 
 A significant challenge in agent development is proving readiness for production before the agent encounters real users. Tools like \keyword{ArkSim} have emerged to facilitate multi-turn conversation simulation between agents and synthetic users~\citep{arksim_primary}.

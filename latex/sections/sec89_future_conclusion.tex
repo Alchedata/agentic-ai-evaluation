@@ -4,16 +4,47 @@
 \section{Future Directions: Closing the Measurement Imbalance}
 \label{sec:future}
 
+\subsection{Measuring the Gap: A Cross-Benchmark Coverage Analysis}
+
+The measurement imbalance identified throughout this survey is not only visible in aggregate statistics---it is legible benchmark by benchmark. Table~\ref{tab:benchmark_coverage} maps nine representative benchmarks from the 2024--2026 literature against the four evaluation pillars and three operational dimensions (economic, adherence, resilience) drawn from the CLEAR framework. Ratings reflect the authors' synthesis of published evaluation protocols and should be read as characterizing what each benchmark \emph{explicitly evaluates}, not as an overall quality assessment.
+
+\begin{table*}[htbp]
+\centering
+\caption{Cross-benchmark coverage analysis. Ratings: $\checkmark$\,=\,explicitly evaluated, $\circ$\,=\,partially or implicitly covered, ---\,=\,not addressed. Assessments are the authors' synthesis based on published evaluation protocols; official benchmark descriptions may differ.}
+\label{tab:benchmark_coverage}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lccccccc@{}}
+\toprule
+\textbf{Benchmark} & \textbf{Core Model} & \textbf{Memory} & \textbf{Tool Use} & \textbf{Environment} & \textbf{Economic (Cost/Lat.)} & \textbf{Adherence} & \textbf{Resilience} \\
+\midrule
+SWE-bench~\citep{beyond_benchmark_islands}    & $\checkmark$ & $\circ$ & $\checkmark$ & $\circ$    & ---        & ---        & ---        \\
+WebArena~\citep{beyond_benchmark_islands}     & $\checkmark$ & ---     & $\checkmark$ & $\checkmark$ & ---        & ---        & ---        \\
+AgentBench~\citep{comprehensive_empirical}    & $\checkmark$ & ---     & $\checkmark$ & $\checkmark$ & ---        & ---        & ---        \\
+GAIA~\citep{beyond_benchmark_islands}         & $\checkmark$ & ---     & $\checkmark$ & $\circ$    & ---        & ---        & ---        \\
+$\tau$-bench~\citep{beyond_benchmark_islands} & $\checkmark$ & ---     & $\checkmark$ & $\circ$    & ---        & $\circ$    & ---        \\
+HAAF~\citep{beyond_benchmark_islands}         & $\checkmark$ & $\circ$ & $\checkmark$ & $\checkmark$ & $\circ$    & $\checkmark$ & $\circ$    \\
+AgentDrive~\citep{beyond_benchmark_islands}   & $\checkmark$ & $\circ$ & $\circ$    & $\checkmark$ & ---        & ---        & $\checkmark$ \\
+Agent GPA~\citep{agent_gpa}                   & $\checkmark$ & $\circ$ & $\circ$    & ---        & ---        & ---        & ---        \\
+Mind2Web~\citep{beyond_benchmark_islands}     & $\checkmark$ & ---     & $\checkmark$ & $\circ$    & ---        & ---        & ---        \\
+\midrule
+\textbf{Coverage (\%)} & \textbf{100\%} & \textbf{approx. 33\%} & \textbf{approx. 78\%} & \textbf{approx. 67\%} & \textbf{approx. 11\%} & \textbf{approx. 22\%} & \textbf{approx. 22\%} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The pattern is stark. Core Model coverage is universal; Tool Use and Environment are reasonably well-represented. Memory evaluation is partial in only one-third of benchmarks and absent in the rest. Economic, Adherence, and Resilience coverage each falls below 25\% across the set. HAAF is the only benchmark in this survey that explicitly addresses four or more of the seven dimensions. This table is not an argument that every benchmark must cover every dimension; domain-specific benchmarks rightly focus on the dimensions most relevant to their deployment context. It is, however, a concrete illustration of where the research community has concentrated its measurement effort and where the gaps are largest---gaps that Table~\ref{tab:benchmark_coverage} makes difficult to dispute.
+
 \subsection{Integrating Human-Centered and Economic Metrics}
 
 A systematic review of papers from 2023 to 2025 conducted by \citet{measurement_imbalance} reveals a \keyword{measurement imbalance} within that study's review corpus: approximately 83\% of the evaluations analyzed focused primarily on technical performance, while only around 30\% addressed human-centered factors and a similar proportion considered economic impacts. These percentages are specific to the coding and review criteria used by that study and should be interpreted as characterizing a particular sample of the literature, not as universal constants. The directional finding---that technical metrics dominate over human-centered and economic ones---is consistent with the broader pattern visible across the surveyed literature. Figure~\ref{fig:measurement_imbalance} visualizes this imbalance.
 
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
 \centering
 \input{figures/measurement_imbalance}
 \caption{The measurement imbalance in agentic AI evaluation. Technical metrics dominate the literature, while security and human-centered considerations remain critically underrepresented.}
 \label{fig:measurement_imbalance}
-\end{figure*}
+\end{figure}
 
 The measurement imbalance is not merely an academic concern. It has direct business consequences:
 
@@ -63,6 +94,18 @@ The methodological building blocks now exist:
 The challenge is adoption. Most teams are still optimizing for the metric they can measure most easily, not the metric that matters most for production.
 
 
+\subsection{The Evaluation Horizon Problem}
+
+A less-discussed structural challenge for the field is what we term the \keyword{evaluation horizon}---the finite time interval over which a benchmark retains its discriminative validity before degradation through training data contamination.
+
+As agentic models are continuously trained on large, internet-scale corpora, published benchmarks become part of the training distribution over time. A benchmark released in 2024 may appear on forum discussions, code repositories, and synthetic data generators used in post-training runs in 2025 and 2026. The result is that benchmark performance increasingly reflects how much of the benchmark's specific task distribution an agent has been trained on---a confound that worsens with each model generation and is difficult to detect from evaluation scores alone.
+
+We define the evaluation horizon $H(B, \epsilon)$ of benchmark $B$ as the time interval after which the benchmark's discriminative validity---its ability to distinguish better agents from worse ones---drops below threshold $\epsilon$. If $\delta(t)$ denotes the contamination-adjusted discriminative validity of $B$ at time $t$ after release $t_0$:
+\begin{equation}
+    H(B, \epsilon) = \inf \{ t > t_0 : \delta(t) < \epsilon \}
+\end{equation}
+For widely-cited, publicly released benchmarks, this horizon may be as short as 6--18 months given the pace of model releases. This framing has direct implications: benchmark maintainers should budget for regular task refresh cycles; research teams should prefer held-out evaluation sets not released publicly; and the community should weight recently-released, unpublished benchmarks more heavily in comparative assessments. The evaluation horizon problem is also a structural argument for simulation-based and generative evaluation methodologies---task distributions that are generated at evaluation time are harder to contaminate than fixed task sets.
+
 % ══════════════════════════════════════════════════════════════════════
 % SECTION IX
 % ══════════════════════════════════════════════════════════════════════
@@ -108,8 +151,8 @@ The economic dimension of agency---specifically the trade-off between accuracy a
 \vspace{1cm}
 \noindent By adopting a multi-dimensional approach that spans technical, human-centered, and economic factors, the industry can bridge the gap between impressive laboratory results and reliable, production-grade autonomous infrastructure.
 
-\vspace{2cm}
-\begin{center}
-\rule{0.3\textwidth}{0.4pt}\\[6pt]
-\textit{\small \textcopyright\ 2026 Alchedata. All rights reserved.}
-\end{center}
+%\vspace{2cm}
+%\begin{center}
+%\rule{0.3\textwidth}{0.4pt}\\[6pt]
+%\textit{\small \textcopyright\ 2026 Alchedata. All rights reserved.}
+%\end{center}
