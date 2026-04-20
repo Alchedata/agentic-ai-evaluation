@@ -16,12 +16,12 @@ This is typically implemented in two paradigms:
 
 The Agent-as-a-Judge paradigm was evaluated in the primary ICML paper introducing the approach~\citep{agent_as_judge_icml}, which reported alignment with human expert judgments of approximately \textbf{90\%} for Agent-as-a-Judge, compared to approximately \textbf{70\%} for traditional LLM-as-a-Judge on the benchmarks studied. These figures should be interpreted in the context of that evaluation's specific task distribution, judge configuration, and human-annotation setup---alignment rates can vary substantially across domains, rubric designs, and model versions. The directional finding---that decomposed, execution-grounded evaluation produces more reliable assessments than single-pass linguistic scoring---is supported by multiple independent studies~\citep{agent_as_judge_survey}, though precise numerical claims require verification against specific deployment conditions. Figure~\ref{fig:judge_comparison} contrasts the two paradigms.
 
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
 \centering
 \input{figures/judge_comparison}
 \caption{LLM-as-a-Judge vs.\ Agent-as-a-Judge comparison. Agent-as-a-Judge provides deeper process evaluation through multi-turn analysis and trajectory inspection, achieving significantly higher human alignment.}
 \label{fig:judge_comparison}
-\end{figure*}
+\end{figure}
 
 The key differences are summarized in Table~\ref{tab:judge_comparison}. Values marked $^{*}$ are benchmark-specific figures from~\citet{agent_as_judge_icml} and should not be extrapolated as universal alignment rates.
 
