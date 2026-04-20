@@ -1,14 +1,20 @@
 % Evaluating the Autonomous Mind: A Multi-Dimensional Framework for Agentic AI Readiness
 
-\documentclass[journal]{IEEEtran}
+\let\texprimitiveyear\year
+
+\documentclass[journal,nolineno]{ieeeaccess}
+\let\accessmetadatayear\year
+\let\year\texprimitiveyear
+
+% Override the IEEE Access spot color with a standard CMYK fallback for viewers
+% that do not render Pantone spot colors correctly.
+\definecolor{accessblue}{cmyk}{1,0.3,0,0.2}
 
 % ── Packages ──────────────────────────────────────────────────────────
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{enumitem}
-\usepackage{xurl}
-\usepackage{hyperref}
 \usepackage{amsmath,amssymb}
 \usepackage{xcolor}
 \usepackage{tikz}
@@ -16,6 +22,8 @@
 \usepackage[numbers,sort&compress]{natbib}
 \usepackage{float}
 \usepackage{multicol}
+\usepackage{xurl}
+\usepackage{hyperref}
 
 % ── TikZ Libraries ───────────────────────────────────────────────────
 \usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, fit, backgrounds, decorations.pathreplacing, shadows.blur, matrix}
@@ -47,6 +55,9 @@
 
 % ══════════════════════════════════════════════════════════════════════
 \begin{document}
+
+\history{Date of publication xxxx 00, 0000, date of current version April 18, 2026.}
+\doi{10.1109/ACCESS.2026.XXXXXXX}
 
 \title{Evaluating the Autonomous Mind: A Multi-Dimensional Framework for Agentic AI Readiness}
 
@@ -279,6 +290,7 @@ Salon Ren is with Alchedata AI. Author biography details can be expanded here be
 
 \begin{IEEEbiographynophoto}{Eric Wang}
 Eric Wang is with Alchedata AI. Author biography details can be expanded here before final IEEE Access submission.
+\EOD
 \end{IEEEbiographynophoto}
 
 \end{document}
